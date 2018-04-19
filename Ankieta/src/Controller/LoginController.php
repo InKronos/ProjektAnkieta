@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\LoginData;
+use App\Entity\Logowanie\LoginData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class LoginController extends Controller
 {
-	public function new(Request $request)
+	public function logowanie(Request $request)
 	{
 		$logindata = new LoginData();
 
@@ -21,20 +21,21 @@ class LoginController extends Controller
 			->add('goto', SubmitType::class, array('label' => 'Zaloguj'))
 			->getForm();
 
-
+		$formlogin->handleRequest($request);
 		if ($formlogin->isSubmitted() && $formlogin->isValid()) {
-        
-			if($formlogin->getlogin() == "admin" && $formlogin->getpassword() == "admin"){
-				
+        	$login = $logindata->getLogin();
+        	$password = $logindata->getPassword();
+			if($login == "admin" && $password == "admin"){
+				return $this->redirectToRoute('login_success');
 			}
-			return $this->redirect('http://symfony.com/doc');
+			
 			/*else{
 				return (
 					'<span style="color:red">Zły login lub haslo</span>')
 			}*/
         
     }
-		return $this->render('new.html.twig', 
+		return $this->render('Logowanie/renderLogin.html.twig', 
 			array('form' => $formlogin->createView(), 
 		));
 	}

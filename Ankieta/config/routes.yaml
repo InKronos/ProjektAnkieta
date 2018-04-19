@@ -1,5 +1,6 @@
 logowanie:
-    path: /new
-    controller: 'App\Controller\LoginController::new'
+    path: /logowanie
+    controller: 'App\Controller\LoginController::logowanie'
 login_success:
     path: /ankiety
+    controller: 'App\Controller\MakeSurveyController::make'
