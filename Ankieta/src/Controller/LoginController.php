@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Logowanie\LoginData;
+use App\Forms\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,11 +16,8 @@ class LoginController extends Controller
 	{
 		$logindata = new LoginData();
 
-		$formlogin = $this->createFormBuilder($logindata)
-			->add('login', TextType::class)
-			->add('password', PasswordType::class)
-			->add('goto', SubmitType::class, array('label' => 'Zaloguj'))
-			->getForm();
+		$formlogin = $this->createForm(LoginType::class, $logindata);
+
 
 		$formlogin->handleRequest($request);
 		if ($formlogin->isSubmitted() && $formlogin->isValid()) {

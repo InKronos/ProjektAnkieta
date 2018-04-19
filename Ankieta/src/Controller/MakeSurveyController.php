@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Entity\Survery\SurveryData;
+use App\Forms\SurveryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,22 +18,11 @@ class MakeSurveyController extends Controller
 	{
 		$surverydata = new SurveryData();
 
-		$formsurvery = $this->createFormBuilder($surverydata)
-			->add('question', TextType::class)
-			->add('jedzwielu', RadioType::class, array(
-    			'label'    => '1 z wielu',
-    		))
-    		->add('wielezwielu', RadioType::class, array(
-    			'label'    => 'wiele z wielu',
-    		))
-    		->add('ocena', RadioType::class, array(
-    			'label'    => 'ocena',
-    		))
-    		->add('otwarte', RadioType::class, array(
-    			'label'    => 'otwarte',
-    		))
-			->add('dodaj', SubmitType::class, array('label' => 'Dalej'))
-            ->getForm();
+		$formsurvery = $this->createForm(SurveryType::class, $surverydata);
+		
+
+        $formsurvery->handleRequest($request);
+         
         return $this->render('Survery/renderSurvery.html.twig', array(
             'formsurvery' => $formsurvery->createView(),
         ));

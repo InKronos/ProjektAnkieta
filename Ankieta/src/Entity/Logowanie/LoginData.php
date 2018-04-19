@@ -6,15 +6,21 @@ class LoginData
 	protected $login;
 	protected $password;
 
-	public function getLogin(){
+	public function getLogin()
+	{
 		return $this->login;
 	}
-	public function setLogin($login){
+
+	public function setLogin($login)
+	{
 		$this->login = $login;
 	}
-	public function getPassword(){
+
+	public function getPassword()
+	{
 		return $this->password;
 	}
+	
 	public function setPassword($password){
 		$this->password = $password;
 	}
