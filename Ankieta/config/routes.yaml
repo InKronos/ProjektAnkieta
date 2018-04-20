@@ -7,3 +7,6 @@ login_success:
 make_survey:
     path: /stworz
     controller: 'App\Controller\MakeSurveyController::make'
+makr_questions:
+    path: /pytanie
+    controller: 'App\Controller\MakeQuestionController::index'

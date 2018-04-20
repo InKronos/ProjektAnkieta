@@ -3,32 +3,35 @@
 
 namespace App\Controller;
 
-use App\Entity\Survery\SurveryData;
+use App\Entity\Survey;
 use App\Entity\Questions;
-use App\Form\SurveryType;
+use App\Form\QuestionType;
+use App\Form\SurveyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class MakeSurveyController extends Controller
 {
 	public function make(Request $request)
 	{
-		$surverydata = new SurveryData();
-		$formsurvery = $this->createForm(SurveryType::class, $surverydata);
-		
+		$surveydata = new Survey();
+        $surveydata->setName('Ankieta dla ...');
+		$formsurvey = $this->createForm(SurveyType::class, $surveydata);
+		$questiondata = new Questions();
 
-        $formsurvery->handleRequest($request);
+        $formsurvey->handleRequest($request);
          
-        if ($formsurvery->isSubmitted() && $formsurvery->isValid())
+        if ($formsurvey->isSubmitted() && $formsurvey->isValid())
         {
-
+            $formquestion = $this->createForm(QuestionType::class, $questiondata);
+            return $this->render('survey/renderQuestion.html.twig', array(
+                'formquestion' => $formquestion->createView(), 
+                'artykul' => $surveydata
+            ));
         }
-        return $this->render('Survery/renderSurvery.html.twig', array(
-            'formsurvery' => $formsurvery->createView(),
+        return $this->render('survey/renderSurvey.html.twig', array(
+            'formsurvey' => $formsurvey->createView(),
         ));
 	}
 }

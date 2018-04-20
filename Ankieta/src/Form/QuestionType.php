@@ -8,12 +8,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class SurveryType extends AbstractType
+class QuestionType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('question', TextType::class)
+			->add('content', TextType::class, array('label' => 'Dodaj Pytanie '))
 			->add('typ', ChoiceType::class,
     			array('choices' => array(
                     '1 z wielu' => '1',

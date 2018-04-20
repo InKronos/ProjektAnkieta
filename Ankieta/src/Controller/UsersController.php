@@ -17,7 +17,7 @@ class UsersController extends Controller
         /*return $this->render('users/index.html.twig', [
             'controller_name' => 'UsersController',
         ]);*/
-        $entityManager = $this->getDoctrine()->getManager();
+        /*$entityManager = $this->getDoctrine()->getManager();
         
         $user = new Users();
         $user->setLogin('admin');
@@ -26,6 +26,6 @@ class UsersController extends Controller
 
         $entityManager->persist($user);
          $entityManager->flush();
-        return new Response('Dodany nowy użytkownik z id '.$user->getId());
+        return new Response('Dodany nowy użytkownik z id '.$user->getId());*/
     }
 }

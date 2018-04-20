@@ -1,0 +1,14 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <h1>Tworzysz pytania do {{ artykul.name }}<h1>
+        <h2>Dodaj Pytanie</h2>
+        {{ form_start(formquestion) }}
+        {{ form_widget(formquestion) }}
+        {{ form_end(formquestion) }}
+    </body>
+</html>
