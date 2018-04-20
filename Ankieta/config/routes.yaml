@@ -2,5 +2,8 @@ logowanie:
     path: /logowanie
     controller: 'App\Controller\LoginController::logowanie'
 login_success:
-    path: /ankiety
+    path: /panel
+    controller: 'App\Controller\ControlPanelController::index'
+make_survey:
+    path: /stworz
     controller: 'App\Controller\MakeSurveyController::make'
