@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <h2>Dodajesz odpowiedzi do pytania {{pytanie.content}}<h2>
+        <h3>Dodaj Pytanie</h3>
+        {{ form_start(formoffered) }}
+        {{ form_widget(formoffered) }}
+        {{ form_end(formoffered) }}
+        {{ form_start(formend) }}
+        {{ form_widget(formend) }}
+        {{ form_end(formend) }}
+        {% if sthIsNeed == true %}
+            <span style="color:red">Musisz mieć przynajmiej jedną odpowiedź</span>
+        {% endif %}
+    </body>
+</html>

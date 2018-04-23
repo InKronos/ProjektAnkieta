@@ -1,0 +1,18 @@
+logowanie:
+    path: /logowanie
+    controller: 'App\Controller\LoginController::logowanie'
+login_success:
+    path: /panel
+    controller: 'App\Controller\ControlPanelController::index'
+make_survey:
+    path: /stworz
+    controller: 'App\Controller\MakeSurveyController::make'
+make_questions:
+    path: /pytanie
+    controller: 'App\Controller\MakeQuestionController::index'
+make_offeredanswers:
+    path: /dodajodpowiedz
+    controller: 'App\Controller\OfferedAnswersController::index'
+thanksforsurvey:
+    path: /dziekujemy
+    controller: 'App\Controller\YouMadeSurveyController::index'
