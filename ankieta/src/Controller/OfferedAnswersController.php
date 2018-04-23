@@ -15,11 +15,18 @@ class OfferedAnswersController extends Controller
     public function index(Request $request, SessionInterface $session)
     {
         $offeredanswerdata = new OfferedAnswers();
+        $offeredanswerdata->setContent('');
         $questiondata = $session->get('question');
         $formoffered = $this->createForm(OfferedAnswerType::class, $offeredanswerdata);
         $formend = $this->createForm(EndType::class);
-        $haveAnswer = false;
-        $sthIsNeed = false;
+        if(!isset($haveAnswer))
+        {
+            $haveAnswer = false;
+        }
+        if(!isset($sthIsNeed))
+        {
+            $sthIsNeed = false;
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $formoffered->handleRequest($request);
         $formend->handleRequest($request);
@@ -33,12 +40,16 @@ class OfferedAnswersController extends Controller
         }
         if ($formend->isSubmitted() && $formend->isValid())
         {
-            /*if($haveAnswer == false)
-                {
-                    $sthIsNeed = true;
-                }*/
+            if($haveAnswer == false)
+            {
+                $sthIsNeed = true;
+            }
+            else
+            {
                 $session->remove('questiondata');
                 return $this->redirectToRoute('make_questions');
+            }
+                
         }
 
         return $this->render('offered_answers/index.html.twig', [

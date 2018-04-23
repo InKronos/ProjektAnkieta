@@ -17,6 +17,7 @@ class MakeQuestionController extends Controller
     public function index(Request $request, SessionInterface $session)
     {
         $questiondata = new Questions();
+        $questiondata->setContent('');
         $formquestion = $this->createForm(QuestionType::class, $questiondata);
         $formend = $this->createForm(EndType::class);
         $formquestion->handleRequest($request);
