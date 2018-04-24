@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+        <style>
+            div.ankiety{
+                border: 1px solid #000;
+                width: 100px;
+                height: 100px;
+                margin: 2px;
+                padding: 2px;
+                float: left;
+            }
+            div.ankiety:hover{
+                background-color: yellow;
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Ankiety: <h1>
+        <h5>Naciśnij, aby wypełnić</h5>
+            {% for survey in surveys %}
+                <a href="/fill/survey{{ survey.id }}">
+                    <div class="ankiety">{{ survey.name }}</div>
+                </a>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

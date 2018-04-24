@@ -7,16 +7,18 @@ control_panel:
 make_survey:
     path: /stworz
     controller: 'App\Controller\MakeSurveyController::make'
-
 make_offeredanswers:
-    path: /dodajodpowiedz/utworz
+    path: /add/answer/create
     controller: 'App\Controller\OfferedAnswersController::index'
 thanksforsurvey:
     path: /dziekujemy
     controller: 'App\Controller\YouMadeSurveyController::index'
 show_offans:
-    path: /dodajodpowiedz/koniec
+    path: /add/answer/end
     controller: 'App\Controller\ShowOfferedAnswersController::index'
 show_survey:
     path: /show/survey
     controller: 'App\Controller\ShowSurveyController::showSurvey'
+main_page:
+    path: /
+    controller: 'App\Controller\MainPageController::index'
