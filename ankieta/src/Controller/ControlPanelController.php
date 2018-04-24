@@ -22,6 +22,10 @@ class ControlPanelController extends Controller
             {
                 return $this->redirectToRoute('make_survey');
             }
+            if($choice->getChoice() == 2)
+            {
+                return $this->redirectToRoute('show_survey');
+            }
         }
         return $this->render('controlPanel/renderPanel.html.twig', 
             array('formpanel' => $formpanel->createView(), 

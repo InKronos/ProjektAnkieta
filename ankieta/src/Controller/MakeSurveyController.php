@@ -25,10 +25,10 @@ class MakeSurveyController extends Controller
         
         if ($formsurvey->isSubmitted() && $formsurvey->isValid())
         {
+            $session->set('IamNew', 'jestem nową ankieta');
             $entityManager->persist($surveydata);
             $entityManager->flush();
-            $session->set('survey', $surveydata);
-            return $this->redirectToRoute('make_questions');
+            return $this->redirect('/add/question/'.($surveydata->getId()));
         }
         return $this->render('survey/renderSurvey.html.twig', array(
             'formsurvey' => $formsurvey->createView(),

@@ -16,8 +16,8 @@ class PickOneType extends AbstractType
             ->add('choice', ChoiceType::class,
                 array('choices' => array(
                     'Stwórz Ankiete' => '1',
-                    'Zobacz Ankiety' => '2',
-                    'Wypełnij Ankiete' => '3'))
+                    'Zobacz Ankiety' => '2'
+                ))
             )
             ->add('dalej', SubmitType::class, array('label' => 'wybierz'))
         ;

@@ -5,14 +5,13 @@
         <title>My Webpage</title>
     </head>
     <body>
-        <h3>Dodane odpowiedzi: <h3>
+        <h3>Pytania ankiety {{ survey.name }} <h3>
         <ul id="list">
             {% for item in items %}
                 <li>{{ item.content }}</li>
             {% endfor %}
-            {{ form_start(formend) }}
-            {{ form_widget(formend.zakoncz, { 'label': 'Ok' }) }}
-            {{ form_end(formend) }}
         </ul>
+        <a href="/add/question/{{ survey.id }}"><button>Dodaj kolejne pytanie</button></a>
+        <a href="/show/survey"><button>Powrót</button></a>
     </body>
 </html>

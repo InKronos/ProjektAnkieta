@@ -1,0 +1,16 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <h3>Ankiety: <h3>
+        <ul id="list">
+            {% for item in items %}
+                <li><a href="/show/survey/{{ item.id }}">{{ item.name }}</a></li>
+            {% endfor %}
+            <a href="/panel"><button>Powrót</button></a>
+        </ul>
+    </body>
+</html>

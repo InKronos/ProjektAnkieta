@@ -16,7 +16,7 @@ class SurveyRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Questions::class);
+        parent::__construct($registry, Survey::class);
     }
 
     /*

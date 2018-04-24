@@ -23,6 +23,7 @@ class YouMadeSurveyController extends Controller
         if ($formend->isSubmitted() && $formend->isValid())
         {
             $session->remove('haveQue');
+            $session->remove('IamNew');
             $session->remove('survey');
             return $this->redirectToRoute('control_panel');
         }
