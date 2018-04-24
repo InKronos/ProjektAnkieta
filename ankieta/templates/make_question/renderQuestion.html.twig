@@ -13,5 +13,8 @@
         {{ form_start(formend) }}
         {{ form_widget(formend) }}
         {{ form_end(formend) }}
+        {% if sthIsNeed == true %}
+            <span style="color:red">Musisz mieć przynajmiej jedną odpowiedź</span>
+        {% endif %}
     </body>
 </html>

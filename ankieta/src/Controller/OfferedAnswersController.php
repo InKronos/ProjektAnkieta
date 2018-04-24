@@ -15,18 +15,11 @@ class OfferedAnswersController extends Controller
     public function index(Request $request, SessionInterface $session)
     {
         $offeredanswerdata = new OfferedAnswers();
-        $offeredanswerdata->setContent('');
         $questiondata = $session->get('question');
         $formoffered = $this->createForm(OfferedAnswerType::class, $offeredanswerdata);
         $formend = $this->createForm(EndType::class);
-        if(!isset($haveAnswer))
-        {
-            $haveAnswer = false;
-        }
-        if(!isset($sthIsNeed))
-        {
-            $sthIsNeed = false;
-        }
+        $sthIsNeed = false;
+
         $entityManager = $this->getDoctrine()->getManager();
         $formoffered->handleRequest($request);
         $formend->handleRequest($request);
@@ -35,12 +28,16 @@ class OfferedAnswersController extends Controller
             $offeredanswerdata->setIdQuestion($questiondata->getId());
             $entityManager->persist($offeredanswerdata);
             $entityManager->flush();
-            $haveAnswer = true;
+            if(!($session->has('haveOffAns')))
+            {
+                $session->set('haveOffAns', 'Teraz masz jedną odpowiedz');
+            }
+            return $this->redirectToRoute('make_offeredanswers');
             
         }
         if ($formend->isSubmitted() && $formend->isValid())
         {
-            if($haveAnswer == false)
+            if(!($session->has('haveOffAns')))
             {
                 $sthIsNeed = true;
             }
