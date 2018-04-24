@@ -1,9 +1,19 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>My Webpage</title>
     </head>
     <body>
-        <h1>Dziękujemy za zrobienie ankiety</h1>
+        <h2>Dziękujemy za zrobienie ankiety<h2>
+        <h3>Oto stworzone odpowiedzi</h3>
+        <ul id="list">
+            {% for item in items %}
+                <li>{{ item.content }}</li>
+            {% endfor %}
+        </ul>
+        {{ form_start(formend) }}
+        {{ form_widget(formend.zakoncz, { 'label': 'Ok' }) }}
+        {{ form_end(formend) }}
     </body>
 </html>

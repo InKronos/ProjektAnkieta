@@ -35,7 +35,7 @@ class LoginController extends Controller
             }	
             else
             {
-                return $this->redirectToRoute('login_success');
+                return $this->redirectToRoute('control_panel');
             }
 
         }

@@ -1,7 +1,7 @@
 logowanie:
     path: /logowanie
     controller: 'App\Controller\LoginController::logowanie'
-login_success:
+control_panel:
     path: /panel
     controller: 'App\Controller\ControlPanelController::index'
 make_survey:
@@ -11,8 +11,11 @@ make_questions:
     path: /pytanie
     controller: 'App\Controller\MakeQuestionController::index'
 make_offeredanswers:
-    path: /dodajodpowiedz
+    path: /dodajodpowiedz/utworz
     controller: 'App\Controller\OfferedAnswersController::index'
 thanksforsurvey:
     path: /dziekujemy
     controller: 'App\Controller\YouMadeSurveyController::index'
+show_offans:
+    path: /dodajodpowiedz/koniec
+    controller: 'App\Controller\ShowOfferedAnswersController::index'

@@ -19,7 +19,6 @@ class OfferedAnswersController extends Controller
         $formoffered = $this->createForm(OfferedAnswerType::class, $offeredanswerdata);
         $formend = $this->createForm(EndType::class);
         $sthIsNeed = false;
-
         $entityManager = $this->getDoctrine()->getManager();
         $formoffered->handleRequest($request);
         $formend->handleRequest($request);
@@ -43,8 +42,7 @@ class OfferedAnswersController extends Controller
             }
             else
             {
-                $session->remove('questiondata');
-                return $this->redirectToRoute('make_questions');
+                return $this->redirectToRoute('show_offans');
             }
                 
         }
