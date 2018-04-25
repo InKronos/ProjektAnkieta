@@ -24,6 +24,7 @@ class OfferedAnswersController extends Controller
         $formend->handleRequest($request);
         if($formoffered->isSubmitted() && $formoffered->isValid())
         {
+            $offeredanswerdata->setIdSurvey($questiondata->getIdSurvey());
             $offeredanswerdata->setIdQuestion($questiondata->getId());
             $entityManager->persist($offeredanswerdata);
             $entityManager->flush();

@@ -8,7 +8,7 @@
         <h3>Pytania ankiety {{ survey.name }} <h3>
         <ul id="list">
             {% for item in items %}
-                <li>{{ item.content }}</li>
+                <a href="/show/survey/question/{{ item.id }}"><li>{{ item.content }}</li></a>
             {% endfor %}
         </ul>
         <a href="/add/question/{{ survey.id }}"><button>Dodaj kolejne pytanie</button></a>

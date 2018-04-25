@@ -16,6 +16,11 @@ class OfferedAnswers
      */
     private $id;
 
+     /**
+     * @ORM\Column(type="integer")
+     */
+    private $id_survey;
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -26,11 +31,24 @@ class OfferedAnswers
      */
     private $content;
 
+   
     public function getId()
     {
         return $this->id;
     }
 
+    public function getIdSurvey(): ?int
+    {
+        return $this->id_survey;
+    }
+
+    public function setIdSurvey(int $id_survey): self
+    {
+        $this->id_survey = $id_survey;
+
+        return $this;
+    }
+    
     public function getIdQuestion(): ?int
     {
         return $this->id_question;
@@ -54,4 +72,6 @@ class OfferedAnswers
 
         return $this;
     }
+
+
 }
