@@ -25,7 +25,7 @@ class MakeSurveyController extends Controller
         
         if ($formsurvey->isSubmitted() && $formsurvey->isValid())
         {
-            $session->set('IamNew', 'jestem nową ankieta');
+            $session->set('IamNew', 'jestem nową ankietą');
             $entityManager->persist($surveydata);
             $entityManager->flush();
             return $this->redirect('/question/add/'.($surveydata->getId()));

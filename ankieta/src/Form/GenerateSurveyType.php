@@ -12,45 +12,46 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class GenerateSurveyType extends AbstractType
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /*global $kernel;
-
-        if ( 'AppCache' == get_class($kernel) )
-        {
-            $kernel = $kernel->getKernel();
-        }
-        $doctrine = $kernel->getContainer()->get( 'doctrine' );
-        $questiondata = $doctrine
-            ->getRepository(Questions::class)
-            ->findBy([
-                'id_survey' => 5
-                ]);
-                */
-        $session = new Session();
-        $questiondata = $session->get('questiondata');
-        $offeredanswerdata = $session->get('offeredanswersdata');
+        $id = $options['id_survey'];
+        $questiondata = $this->entityManager
+                            ->getRepository(Questions::class)
+                            ->findBy(['id_survey' => $id]);
         $builder;
-        $x = 0;
-        foreach ($questiondata as &$question) 
+        $x = 1;
+        foreach ($questiondata as $question) 
         {
             $typ = $question->getTyp();
             if($typ == 1 || $typ == 2)
             {
-                if($typ == 1)
-                    $multiple = false;
-                else 
-                    $multiple = true;
-                $choices_array = [];
-                foreach ($offeredanswerdata as &$offeredanswer) 
+                if($typ == 1) 
                 {
-                    if($offeredanswer->getIdQuestion() == $question->getId())
-                        $choices_array[$offeredanswer->getContent()] = $offeredanswer->getContent();
+                    $multiple = false;
+                } 
+                else 
+                {
+                    $multiple = true;
+                }
+                $choices_array = [];
+                $offeredanswerdata = $this->entityManager
+                                        ->getRepository(OfferedAnswers::class)
+                                        ->findBy(['id_question' => $question->getId()]);
+                foreach ($offeredanswerdata as $offeredanswer) 
+                {
+                    $choices_array[$offeredanswer->getContent()] = $offeredanswer->getContent();
                 }
                 $builder
                     ->add('pytanie'.$x, ChoiceType::class,
@@ -89,8 +90,6 @@ class GenerateSurveyType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
+        $resolver->setRequired('id_survey');
     }
 }

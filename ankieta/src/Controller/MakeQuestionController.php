@@ -26,36 +26,39 @@ class MakeQuestionController extends Controller
         $formend = $this->createForm(EndType::class);
         $formquestion->handleRequest($request);
         $formend->handleRequest($request);
-        $surveydata = $this->getDoctrine()
+        $entityManager = $this->getDoctrine()->getManager();
+        $surveydata = $entityManager
             ->getRepository(Survey::class)
             ->find($id);
-        if(!($session->has('haveQue')))
+        $HowManyQue = $entityManager
+            ->getRepository(Questions::class)
+            ->findBy(['id_survey' => $surveydata->getId()]);
+        if(!$HowManyQue)
         {
             $sthIsNeed = false;
         }
         else
+        {
             $sthIsNeed = true;
+        }
 
         if($session->has('IamNew'))
         {
             $INew = true;
-            $session->set('survey', $surveydata);
         }
         else
+        {
             $INew = false;
+        }
 
-        $entityManager = $this->getDoctrine()->getManager();
         if ($formquestion->isSubmitted() && $formquestion->isValid())
         {
             $questiondata->setIdSurvey($surveydata->getId());
             $entityManager->persist($questiondata);
             $entityManager->flush();
-            if(!($session->has('haveQue')))
-                $session->set('haveQue', 'Teraz masz pytanie');
             if($questiondata->getTyp() == 1 || $questiondata->getTyp() == 2)
             {
-                $session->set('question', $questiondata);
-                return $this->redirectToRoute('make_offeredanswers');
+                return $this->redirect('/question/answer/add/'.$questiondata->getId());
             }
             else
             {
@@ -64,7 +67,7 @@ class MakeQuestionController extends Controller
         }
         if ($formend->isSubmitted() && $formend->isValid())
         {
-                return $this->redirectToRoute('thanksforsurvey');
+                return $this->redirect('/dziekujemy/'.($surveydata->getId()));
         }
         return $this->render('make_question/addQuestion.html.twig', array(
                 'formquestion' => $formquestion->createView(),
@@ -90,7 +93,7 @@ class MakeQuestionController extends Controller
             if($questioninfo['typ'] == 1 || $questioninfo['typ'] == 2)
             {
                 $offeredanswerdata = $entityManager->getRepository(OfferedAnswers::class)->findBy(['id_question' => $id]);
-                foreach ($offeredanswerdata as &$answer) 
+                foreach ($offeredanswerdata as $answer) 
                 {
                     $entityManager->remove($answer);
                 }
@@ -98,7 +101,7 @@ class MakeQuestionController extends Controller
             }
             if($questiondata->getTyp() == 1 || $questiondata->getTyp() == 2)
             {
-                $session->set('question', $questiondata);
+                $session->set('id_question', $questiondata->getId());
                 $session->set('edit', 'I am Edited');
                 return $this->redirectToRoute('make_offeredanswers');
             }

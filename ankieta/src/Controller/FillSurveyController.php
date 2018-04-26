@@ -9,8 +9,8 @@ use App\Entity\OfferedAnswers;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class FillSurveyController extends Controller
@@ -39,38 +39,37 @@ class FillSurveyController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         $link = $randomString.$id;
-        return $this->redirect('/fill/survey/'.$link);
+        return $this->redirect('/survey/fill/'.$link);
     }
     /**
-     * @Route("/fill/survey/{string}", name="fill_survey")
+     * @Route("/survey/fill/{string}", name="fill_survey")
      */
-    public function fill($string)
+    public function fillAction($string, Request $request)
     {
-
         $arr = str_split($string);
         for($i = 0; $i < 10; $i++)
         {
             array_shift($arr);
         }
         $id = implode($arr);
-        $session = new Session();
-        $questiondata = $this->getDoctrine()
-            ->getRepository(Questions::class)
-            ->findBy([
-                'id_survey' => $id
-                ]);
-        $offeredanswersdata = $this->getDoctrine()
-            ->getRepository(OfferedAnswers::class)
-            ->findBy([
-                'id_survey' => $id
-            ]);
-        $session->set('questiondata', $questiondata);
-        $session->set('offeredanswersdata', $offeredanswersdata);
-        $form = $this->createForm(GenerateSurveyType::class);
-        return $this->render('fill_survey/index.html.twig', 
-            array('form' => $form->createView(), 
-
-        ));
+        $form = $this->createForm(GenerateSurveyType::class, null, array('id_survey' => $id));
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+                $data = $form->getData();
+        }
+        if(isset($data))
+        {
+            return $this->render('fill_survey/index.html.twig', 
+                ['data' => $data,] 
+            );
+        }
+        else
+        {
+            return $this->render('fill_survey/index.html.twig', 
+                array('form' => $form->createView(), 
+            ));
+        }
+        
     }
 
 }

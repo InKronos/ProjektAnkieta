@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OfferedAnswers;
+use App\Entity\Questions;
 use App\Form\EndType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +14,11 @@ class ShowOfferedAnswersController extends Controller
 {
     public function index(Request $request, SessionInterface $session)
     {
-        $questiondata = $session->get('question');
+        $entityManager = $this->getDoctrine()->getManager();
+        $id_question = $session->get('id_question');
+        $questiondata = $entityManager
+                            ->getRepository(Questions::class)
+                            ->find($id_question);
         $offeredanswers = $this->getDoctrine()
             ->getRepository(OfferedAnswers::class)
             ->findBy(
@@ -23,13 +28,12 @@ class ShowOfferedAnswersController extends Controller
         $formend->handleRequest($request);
         if ($formend->isSubmitted() && $formend->isValid())
         {
-            $session->remove('question');
+            $session->remove('id_question');
             if($session->has('edit'))
             {
                 $session->remove('edit');
                 return $this->redirect('/show/survey/question/'.($questiondata->getId()));
             }
-            $session->remove('haveOffAns');
             return $this->redirect('/question/add/'.($questiondata->getIdSurvey()));
         }
         return $this->render('show_offered_answers/index.html.twig', [

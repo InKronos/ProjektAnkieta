@@ -5,10 +5,16 @@
     </head>
     <body>
         <h2>Wypełnij tą ankiete<h2>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_errors(form) }}
-        {{ form_end(form) }}
+        {% if form is defined %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+            {{ form_end(form) }}
+        {% endif %}
+        
+        {% if data is defined %}
+           HEJ!
+        {% endif %}
         <a href="/"><button>Powrót</button></a>
     </body>
 </html>
