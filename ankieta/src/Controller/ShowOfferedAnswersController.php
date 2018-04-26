@@ -23,9 +23,14 @@ class ShowOfferedAnswersController extends Controller
         $formend->handleRequest($request);
         if ($formend->isSubmitted() && $formend->isValid())
         {
-                $session->remove('question');
-                $session->remove('haveOffAns');
-                return $this->redirect('/add/question/'.($questiondata->getIdSurvey()));
+            $session->remove('question');
+            if($session->has('edit'))
+            {
+                $session->remove('edit');
+                return $this->redirect('/show/survey/question/'.($questiondata->getId()));
+            }
+            $session->remove('haveOffAns');
+            return $this->redirect('/question/add/'.($questiondata->getIdSurvey()));
         }
         return $this->render('show_offered_answers/index.html.twig', [
             'items' => $offeredanswers,

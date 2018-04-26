@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <h1>Edytujesz pytanie {{ question.content }}<h1>
+        <h2>Dodaj Pytanie</h2>
+        {{ form_start(formquestion) }}
+        {{ form_widget(formquestion) }}
+        {{ form_end(formquestion) }}
+            <a href="/show/survey/question/{{ question.id }}"><button>Powrót</button></a>
+    </body>
+</html>

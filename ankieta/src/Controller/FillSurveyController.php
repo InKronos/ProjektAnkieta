@@ -46,6 +46,7 @@ class FillSurveyController extends Controller
      */
     public function fill($string)
     {
+
         $arr = str_split($string);
         for($i = 0; $i < 10; $i++)
         {
@@ -68,6 +69,7 @@ class FillSurveyController extends Controller
         $form = $this->createForm(GenerateSurveyType::class);
         return $this->render('fill_survey/index.html.twig', 
             array('form' => $form->createView(), 
+
         ));
     }
 

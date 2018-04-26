@@ -33,9 +33,8 @@ class GenerateSurveyType extends AbstractType
                 ]);
                 */
         $session = new Session();
-        $session->start();
         $questiondata = $session->get('questiondata');
-        $offeredanswerdata = $session->get('questiondata');
+        $offeredanswerdata = $session->get('offeredanswersdata');
         $builder;
         $x = 0;
         foreach ($questiondata as &$question) 

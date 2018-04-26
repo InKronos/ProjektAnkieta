@@ -5,7 +5,7 @@
         <title>My Webpage</title>
     </head>
     <body>
-        <h3>Pytanie {{ question.content }} <h3>
+        <h3>Pytanie {{ question.content }} </h3>
         <strong>Typ: 
         {% if (question.typ == 1) or (question.typ == 2) %}
                 {% if question.typ == 1 %} 
@@ -28,6 +28,7 @@
         {{ form_start(formend) }}
         {{ form_widget(formend.zakoncz, { 'label': 'usun' }) }}
         {{ form_end(formend) }}
+        <a href="/question/edit/{{ question.getId() }}"><button>Edytuj</button></a>
         <a href="/show/survey/{{ question.getIdSurvey() }}"><button>Powrót</button></a>
     </body>
 </html>

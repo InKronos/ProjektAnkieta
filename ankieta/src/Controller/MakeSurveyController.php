@@ -28,7 +28,7 @@ class MakeSurveyController extends Controller
             $session->set('IamNew', 'jestem nową ankieta');
             $entityManager->persist($surveydata);
             $entityManager->flush();
-            return $this->redirect('/add/question/'.($surveydata->getId()));
+            return $this->redirect('/question/add/'.($surveydata->getId()));
         }
         return $this->render('survey/renderSurvey.html.twig', array(
             'formsurvey' => $formsurvey->createView(),
