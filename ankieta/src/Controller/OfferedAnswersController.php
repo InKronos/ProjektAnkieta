@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class OfferedAnswersController extends Controller
 {
      /**
-     * @Route("/question/answer/add/{id}", name="answer_add")
+     * @Route("/question/answer/{option}/{id}", name="answer_add")
      */
-    public function index($id, Request $request, SessionInterface $session)
+    public function index($option ,$id, Request $request, SessionInterface $session)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $offeredanswerdata = new OfferedAnswers();
@@ -49,7 +49,7 @@ class OfferedAnswersController extends Controller
             }
             else
             {
-                return $this->redirect('/question/answer/thanks/'.$id);
+                return $this->redirect('/question/answer/'.$option.'/thanks/'.$id);
             }
                 
         }
@@ -62,9 +62,9 @@ class OfferedAnswersController extends Controller
         ]);
     }
     /**
-     * @Route("/question/answer/thanks/{id}", name="answer_thanks_add")
+     * @Route("/question/answer/{option}/thanks/{id}", name="answer_thanks_add")
      */
-    public function showAction($id, Request $request, SessionInterface $session)
+    public function showAction($option, $id, Request $request, SessionInterface $session)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $id_question = $id;
@@ -80,10 +80,8 @@ class OfferedAnswersController extends Controller
         $formend->handleRequest($request);
         if ($formend->isSubmitted() && $formend->isValid())
         {
-            $session->remove('id_question');
-            if($session->has('edit'))
+            if($option == 'edit')
             {
-                $session->remove('edit');
                 return $this->redirect('/show/survey/question/'.($questiondata->getId()));
             }
             return $this->redirect('/question/add/'.($questiondata->getIdSurvey()));

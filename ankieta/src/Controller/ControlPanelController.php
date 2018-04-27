@@ -20,11 +20,15 @@ class ControlPanelController extends Controller
         {
             if($choice->getChoice() == 1)
             {
-                return $this->redirectToRoute('make_survey');
+                return $this->redirectToRoute('add_survey');
             }
             if($choice->getChoice() == 2)
             {
                 return $this->redirectToRoute('show_survey');
+            }
+            if($choice->getChoice() == 3)
+            {
+                return $this->redirectToRoute('show_table_answers');
             }
         }
         return $this->render('controlPanel/renderPanel.html.twig', 

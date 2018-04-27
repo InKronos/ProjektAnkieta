@@ -39,6 +39,7 @@ class LoginController extends Controller
             }
 
         }
+        
         return $this->render('Logowanie/renderLogin.html.twig', 
             array('form' => $formlogin->createView(), 
         ));

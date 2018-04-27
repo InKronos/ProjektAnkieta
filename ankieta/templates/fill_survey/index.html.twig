@@ -2,19 +2,19 @@
 <html>
     <head>
         <title>My Webpage</title>
+        <style>
+            textarea{
+                clear:both;
+                width: 100%;
+            }
+        </style>
     </head>
     <body>
-        <h2>Wypełnij tą ankiete<h2>
-        {% if form is defined %}
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-            {{ form_errors(form) }}
-            {{ form_end(form) }}
-        {% endif %}
-        
-        {% if data is defined %}
-           HEJ!
-        {% endif %}
+        <h2>Wypełnij tą ankiete</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+        {{ form_end(form) }}
         <a href="/"><button>Powrót</button></a>
     </body>
 </html>

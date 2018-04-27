@@ -6,10 +6,16 @@ control_panel:
     controller: 'App\Controller\ControlPanelController::index'
 make_survey:
     path: /stworz
-    controller: 'App\Controller\MakeSurveyController::make'
+    controller: 'App\Controller\MakeSurveyController::addAction'
 show_survey:
     path: /show/survey
     controller: 'App\Controller\ShowSurveyController::showSurvey'
 main_page:
     path: /
     controller: 'App\Controller\MainPageController::index'
+thanks_survey:
+    path: /thanks/survey
+    controller: 'App\Controller\FillSurveyController::thanksAction'
+generate_code:
+    path: /generate/code
+    controller: 'App\Controller\GenerateCodeController::index'

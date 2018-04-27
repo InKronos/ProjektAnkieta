@@ -101,9 +101,7 @@ class MakeQuestionController extends Controller
             }
             if($questiondata->getTyp() == 1 || $questiondata->getTyp() == 2)
             {
-                $session->set('id_question', $questiondata->getId());
-                $session->set('edit', 'I am Edited');
-                return $this->redirectToRoute('make_offeredanswers');
+                return $this->redirect('/question/answer/edit/'.$questiondata->getId());
             }
             else
             {

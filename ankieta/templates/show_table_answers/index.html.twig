@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Webpage</title>
+</head>
+<body>
+<h3>Odpowiedzi </h3>
+{% for survey in surveys %}
+    <table border="1">
+        <caption>{{ survey.name }}</caption>
+        <tr>
+            {% for question in questions %}
+                {% if question.getIdSurvey() == survey.id %}
+                    <th>{{ question.content }}</th>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% for table in answers %}
+            {% if table.getIdSurvey() == survey.id %}
+                <tr>
+                    {% for answer in table.answers %}
+                        <td>
+                            {% if answer is iterable %}
+                                <ul>
+                                    {% for value in answer %}
+                                        <li>{{ value }}</li>
+                                    {% endfor %}
+                                </ul>
+                             {% else %}
+                                {{ answer }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </table>
+    <br><br><br>
+{% endfor %}
+<a href="/panel"><button>Powrót</button></a>
+</body>
+</html>

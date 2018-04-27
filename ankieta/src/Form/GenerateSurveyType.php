@@ -54,7 +54,7 @@ class GenerateSurveyType extends AbstractType
                     $choices_array[$offeredanswer->getContent()] = $offeredanswer->getContent();
                 }
                 $builder
-                    ->add('pytanie'.$x, ChoiceType::class,
+                    ->add($question->getId(), ChoiceType::class,
                         array('choices' => $choices_array,  
                         'multiple'=>$multiple,'expanded'=>true,
                         'label' => $question->getContent()
@@ -64,7 +64,7 @@ class GenerateSurveyType extends AbstractType
             else if($typ == 3)
             {
                 $builder
-                    ->add('pytanie'.$x, ChoiceType::class,
+                    ->add($question->getId(), ChoiceType::class,
                         array('choices' => array(
                             '1' => '1',
                             '2' => '2',
@@ -78,7 +78,7 @@ class GenerateSurveyType extends AbstractType
             else
             {
                 $builder
-                    ->add('pytanie'.$x, TextareaType::class, ['label' => $question->getContent()]
+                    ->add($question->getId(), TextareaType::class, ['label' => $question->getContent()]
                     );
             }
             $x++;

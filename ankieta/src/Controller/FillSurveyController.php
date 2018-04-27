@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Survey;
+use App\Entity\Answers;
+use App\Entity\RebateCode;
 use App\Form\GenerateSurveyType;
 use App\Entity\Questions;
 use App\Entity\OfferedAnswers;
@@ -52,24 +54,49 @@ class FillSurveyController extends Controller
             array_shift($arr);
         }
         $id = implode($arr);
+        $data = [];
         $form = $this->createForm(GenerateSurveyType::class, null, array('id_survey' => $id));
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) 
         {
+                $entityManager = $this->getDoctrine()->getManager();
                 $data = $form->getData();
+                $answers = new Answers();
+                $answers->setIdSurvey($id);
+                $answers->setAnswers($data);
+                $entityManager->persist($answers);
+                $entityManager->flush();
+
+
+                return $this->redirectToRoute("thanks_survey");
         }
-        if(isset($data))
+        return $this->render('fill_survey/index.html.twig', 
+                array('form' => $form->createView(),
+            ));
+    }
+    /*
+     * @Route("/survey/thanks", name="thanks_survey")
+     */
+    public function thanksAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $Rcode = $entityManager
+                    ->getRepository(RebateCode::class)
+                    ->findOneBy(['used' => false]);
+        if(!$Rcode)
         {
-            return $this->render('fill_survey/index.html.twig', 
-                ['data' => $data,] 
-            );
+            return $this->redirectToRoute("generate_code");
         }
         else
         {
-            return $this->render('fill_survey/index.html.twig', 
-                array('form' => $form->createView(), 
-            ));
+            $Rcode->setUsed(true);
+            $entityManager->flush();
+            return $this->render('fill_survey/thanks.html.twig', [
+                'rebate' => $Rcode
+            ]);
         }
-        
+
+
     }
 
 }
