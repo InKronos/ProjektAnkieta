@@ -31,11 +31,13 @@ class MakeSurveyController extends Controller
             $session->set('IamNew', 'jestem nową ankietą');
             $entityManager->persist($surveydata);
             $entityManager->flush();
+
             return $this->redirect('/question/add/'.($surveydata->getId()));
         }
-        return $this->render('survey/renderSurvey.html.twig', array(
+
+        return $this->render('survey/renderSurvey.html.twig', [
             'formsurvey' => $formsurvey->createView(),
-        ));
+        ]);
     }
      /**
      * @Route("/survey/delete/{id}", name="delete_survey")
@@ -57,18 +59,47 @@ class MakeSurveyController extends Controller
             $offeredanswersdata = $entityManager
                                     ->getRepository(OfferedAnswers::class)
                                     ->findBy(['id_question' => $question->getId()]);
-            foreach ($offeredanswersdata as $answer) 
-            {
+            foreach ($offeredanswersdata as $answer) {
                 $entityManager->remove($answer);
             }
             $entityManager->remove($question);
         }
-        foreach ($answerdata as $answer)
-        {
+
+        foreach ($answerdata as $answer) {
             $entityManager->remove($answer);
         }
+
         $entityManager->remove($survey);
         $entityManager->flush();
+
         return $this->redirect('/show/survey');
+    }
+
+    /**
+     * Matches /dziekujemy/*
+     *
+     * @Route("/dziekujemy/{id}", name="thankU")
+     */
+    public function thanksAction($id, SessionInterface $session, Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $questions = $entityManager
+            ->getRepository(Questions::class)
+            ->findBy(['id_survey' => $id]);
+        $formend = $this->createForm(EndType::class);
+        $formend->handleRequest($request);
+
+        if ($formend->isSubmitted() && $formend->isValid())
+        {
+            $session->remove('IamNew');
+            $session->remove('id_survey');
+
+            return $this->redirectToRoute('control_panel');
+        }
+
+        return $this->render('you_made_survey/index.html.twig', [
+            'formend' => $formend->createView(),
+            'items' => $questions
+        ]);
     }
 }

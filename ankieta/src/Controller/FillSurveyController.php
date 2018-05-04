@@ -25,22 +25,26 @@ class FillSurveyController extends Controller
         $surveydata = $this->getDoctrine()
             ->getRepository(Survey::class)
             ->find($id);
-        if(!$surveydata)
-        {
+        if(!$surveydata) {
             return $this->redirect('/');
         }
 
-        if(!$session->has('security'))
+        if(!$session->has('security')) {
             return $this->redirect('/');
-        else
+        } else {
             $session->remove('security');
+        }
+
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
+
         for ($i = 0; $i < 10; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+
         $link = $randomString.$id;
+
         return $this->redirect('/survey/fill/'.$link);
     }
     /**
@@ -49,12 +53,10 @@ class FillSurveyController extends Controller
     public function fillAction($string, Request $request)
     {
         $arr = str_split($string);
-        for($i = 0; $i < 10; $i++)
-        {
+        for($i = 0; $i < 10; $i++) {
             array_shift($arr);
         }
         $id = implode($arr);
-        $data = [];
         $form = $this->createForm(GenerateSurveyType::class, null, array('id_survey' => $id));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) 
@@ -67,12 +69,12 @@ class FillSurveyController extends Controller
                 $entityManager->persist($answers);
                 $entityManager->flush();
 
-
                 return $this->redirectToRoute("thanks_survey");
         }
+
         return $this->render('fill_survey/index.html.twig', 
-                array('form' => $form->createView(),
-            ));
+                ['form' => $form->createView(),
+            ]);
     }
     /*
      * @Route("/survey/thanks", name="thanks_survey")
@@ -83,12 +85,10 @@ class FillSurveyController extends Controller
         $Rcode = $entityManager
                     ->getRepository(RebateCode::class)
                     ->findOneBy(['used' => false]);
-        if(!$Rcode)
-        {
+
+        if(!$Rcode) {
             return $this->redirectToRoute("generate_code");
-        }
-        else
-        {
+        } else {
             $Rcode->setUsed(true);
             $entityManager->flush();
             return $this->render('fill_survey/thanks.html.twig', [

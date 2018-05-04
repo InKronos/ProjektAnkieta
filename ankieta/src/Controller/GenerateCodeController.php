@@ -18,10 +18,11 @@ class GenerateCodeController extends Controller
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < 28; $i++)
-        {
+
+        for ($i = 0; $i < 28; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+
         $code = 'reb_'.$randomString;
         $Rcode->setCode($code);
         $Rcode->setUsed(false);

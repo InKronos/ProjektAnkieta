@@ -16,32 +16,28 @@ class LoginController extends Controller
     {
         $user = new Users();
         $formlogin = $this->createForm(LoginType::class, $user);
-        
         $formlogin->handleRequest($request);
+
         if ($formlogin->isSubmitted() && $formlogin->isValid())
         {
             $repository = $this->getDoctrine()->getRepository(Users::class);
             $login = $user->getLogin();
             $password = $user->getPassword();
-            $users = $repository->findBy(
-               array(
+            $users = $repository->findBy([
                	'login' => $login,
                 'password' => $password
-            	)
-            );
-            if(!$users)
-            {
+            	]);
+
+            if(!$users) {
             		
-            }	
-            else
-            {
+            } else {
                 return $this->redirectToRoute('control_panel');
             }
 
         }
-        
+
         return $this->render('Logowanie/renderLogin.html.twig', 
-            array('form' => $formlogin->createView(), 
-        ));
+            ['form' => $formlogin->createView(),
+        ]);
     }
 }

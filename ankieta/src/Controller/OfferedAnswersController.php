@@ -29,12 +29,14 @@ class OfferedAnswersController extends Controller
         $sthIsNeed = false;
         $formoffered->handleRequest($request);
         $formend->handleRequest($request);
+
         if($formoffered->isSubmitted() && $formoffered->isValid())
         {
             $offeredanswerdata->setIdSurvey($questiondata->getIdSurvey());
             $offeredanswerdata->setIdQuestion($questiondata->getId());
             $entityManager->persist($offeredanswerdata);
             $entityManager->flush();
+
             return $this->redirect('/question/answer/add/'.$id);
             
         }
@@ -43,12 +45,9 @@ class OfferedAnswersController extends Controller
             $HowManyAnswers = $entityManager
                             ->getRepository(OfferedAnswers::class)
                             ->findBy(['id_question' => $id_question]);
-            if(!$HowManyAnswers)
-            {
+            if(!$HowManyAnswers) {
                 $sthIsNeed = true;
-            }
-            else
-            {
+            } else {
                 return $this->redirect('/question/answer/'.$option.'/thanks/'.$id);
             }
                 
@@ -73,19 +72,19 @@ class OfferedAnswersController extends Controller
                             ->find($id_question);
         $offeredanswers = $this->getDoctrine()
             ->getRepository(OfferedAnswers::class)
-            ->findBy(
-                ['id_question' => $questiondata->getId()]
-            );
+            ->findBy(['id_question' => $questiondata->getId()]);
         $formend = $this->createForm(EndType::class);
         $formend->handleRequest($request);
+
         if ($formend->isSubmitted() && $formend->isValid())
         {
-            if($option == 'edit')
-            {
+            if($option == 'edit') {
                 return $this->redirect('/show/survey/question/'.($questiondata->getId()));
             }
+
             return $this->redirect('/question/add/'.($questiondata->getIdSurvey()));
         }
+
         return $this->render('show_offered_answers/index.html.twig', [
             'items' => $offeredanswers,
             'formend' => $formend->createView()

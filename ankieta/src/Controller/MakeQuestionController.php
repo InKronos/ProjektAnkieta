@@ -33,21 +33,16 @@ class MakeQuestionController extends Controller
         $HowManyQue = $entityManager
             ->getRepository(Questions::class)
             ->findBy(['id_survey' => $surveydata->getId()]);
-        if(!$HowManyQue)
-        {
+
+        if(!$HowManyQue) {
             $sthIsNeed = false;
-        }
-        else
-        {
+        } else {
             $sthIsNeed = true;
         }
 
-        if($session->has('IamNew'))
-        {
+        if($session->has('IamNew')) {
             $INew = true;
-        }
-        else
-        {
+        } else {
             $INew = false;
         }
 
@@ -65,10 +60,12 @@ class MakeQuestionController extends Controller
                 return $this->redirect('/question/add/'.($surveydata->getId()));
             }
         }
+
         if ($formend->isSubmitted() && $formend->isValid())
         {
                 return $this->redirect('/dziekujemy/'.($surveydata->getId()));
         }
+
         return $this->render('make_question/addQuestion.html.twig', array(
                 'formquestion' => $formquestion->createView(),
                 'artykul' => $surveydata,
@@ -90,28 +87,27 @@ class MakeQuestionController extends Controller
         if ($formquestion->isSubmitted() && $formquestion->isValid())
         {
             $entityManager->flush();
+
             if($questioninfo['typ'] == 1 || $questioninfo['typ'] == 2)
             {
                 $offeredanswerdata = $entityManager->getRepository(OfferedAnswers::class)->findBy(['id_question' => $id]);
-                foreach ($offeredanswerdata as $answer) 
-                {
+                foreach ($offeredanswerdata as $answer) {
                     $entityManager->remove($answer);
                 }
                 $entityManager->flush();
             }
-            if($questiondata->getTyp() == 1 || $questiondata->getTyp() == 2)
-            {
+
+            if($questiondata->getTyp() == 1 || $questiondata->getTyp() == 2) {
                 return $this->redirect('/question/answer/edit/'.$questiondata->getId());
-            }
-            else
-            {
+            } else {
                 return $this->redirect('/show/survey/question/'.($questiondata->getId()));
             }
         }
-        return $this->render('make_question/editQuestion.html.twig', array(
+
+        return $this->render('make_question/editQuestion.html.twig', [
                 'formquestion' => $formquestion->createView(),
                 'question' => $questiondata
-            ));
+            ]);
     }
 
 }

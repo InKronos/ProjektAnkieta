@@ -20,8 +20,7 @@ class ShowSurveyController extends Controller
     {
         $surveydata = $this->getDoctrine()
             ->getRepository(Survey::class)
-            ->findAll()
-            ;
+            ->findAll();
         
         return $this->render('show_survey/index.html.twig', [
             'items' => $surveydata,
@@ -45,6 +44,7 @@ class ShowSurveyController extends Controller
             'survey' => $surveydata
         ]);
     }
+
      /**
      * Matches /show/survery/question/*
      *
@@ -61,6 +61,7 @@ class ShowSurveyController extends Controller
         $id_survey = $questiondata->getIdSurvey();
         $formend = $this->createForm(EndType::class);
         $formend->handleRequest($request);
+
         if ($formend->isSubmitted() && $formend->isValid())
         {
             $entityManager = $this->getDoctrine()->getManager();
@@ -68,9 +69,12 @@ class ShowSurveyController extends Controller
             foreach ($offeredanswersdata as &$answer) {
                 $entityManager->remove($answer);
             }
+
             $entityManager->flush();
+
             return $this->redirect('/show/survey/'.$id_survey);
         }
+
         return $this->render('show_survey/showQuestion.html.twig', [
             'question' => $questiondata,
             'answers' => $offeredanswersdata,

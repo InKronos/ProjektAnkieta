@@ -18,22 +18,17 @@ class ControlPanelController extends Controller
 
         if ($formpanel->isSubmitted() && $formpanel->isValid())
         {
-            if($choice->getChoice() == 1)
-            {
+            if($choice->getChoice() == 1) {
                 return $this->redirectToRoute('add_survey');
-            }
-            if($choice->getChoice() == 2)
-            {
+            } elseif ($choice->getChoice() == 2) {
                 return $this->redirectToRoute('show_survey');
-            }
-            if($choice->getChoice() == 3)
-            {
+            } elseif($choice->getChoice() == 3) {
                 return $this->redirectToRoute('show_table_answers');
             }
         }
         return $this->render('controlPanel/renderPanel.html.twig', 
-            array('formpanel' => $formpanel->createView(), 
-        ));
+           ['formpanel' => $formpanel->createView(),
+        ]);
 
     }
 }
