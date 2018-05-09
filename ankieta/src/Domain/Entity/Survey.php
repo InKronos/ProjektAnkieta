@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Survey\Domain\Survey\Entity;
+namespace App\Domain\Entity;
 
 use Ramsey\Uuid\Uuid;
 
@@ -12,13 +12,13 @@ class Survey
 
     private $name;
 
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->id = Uuid::uuid4();
         $this->name = $name;
     }
 
-    public function getId()
+  /*  public function getId()
     {
         return $this->id;
     }
@@ -26,5 +26,5 @@ class Survey
     public function getName()
     {
         return $this->name;
-    }
+    }*/
 }

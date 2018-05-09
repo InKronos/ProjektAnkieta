@@ -6,7 +6,7 @@ control_panel:
     controller: 'App\Controller\ControlPanelController::index'
 make_survey:
     path: /stworz
-    controller: 'App\Controller\MakeSurveyController::addAction'
+    controller: 'App\UI\Controller\MakeSurveyController::addAction'
 show_survey:
     path: /show/survey
     controller: 'App\Controller\ShowSurveyController::showSurvey'
