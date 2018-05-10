@@ -20,26 +20,82 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Domain,Application,Infrastructure,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Domain,Application,Infrastructure,UI,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\UI\Controller\:
-        resource: '../src/UI/Controller'
-        tags: ['controller.service_arguments']
+    #App\UI\Controller\:
+        #resource: '../src/UI/Controller'
+        #tags: ['controller.service_arguments']
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
     survey.repository:
-            class: App\Infrastructure\Domain\DbalSurveyRepository
-            arguments:
-              -  '@doctrine'
+          class: App\Infrastructure\Domain\DbalSurveyRepository
+          arguments:
+              - '@doctrine'
+
+    question.repository:
+          class: App\Infrastructure\Domain\DbalQuestionRepository
+          arguments:
+              - '@doctrine'
+
+    offered_answer.repository:
+          class: App\Infrastructure\Domain\DbalOfferedAnswerRepository
+          arguments:
+              - '@doctrine'
+
+
     ui.controller.survey_controller:
-            class: App\UI\Controller\MakeSurveyController
-            arguments:
-                - '@tactician.commandbus'
+          class: App\UI\Controller\MakeSurveyController
+          arguments:
+              - '@tactician.commandbus'
+              - '@infrastructure.doctrine.survey_view'
+    ui.controller.question_controller:
+          class: App\UI\Controller\MakeQuestionController
+          arguments:
+              - '@tactician.commandbus'
+              - '@infrastructure.doctrine.survey_view'
+              - '@infrastructure.doctrine.question_view'
+        #  tags: ['controller.service_arguments']
+    ui.controller.offered_answer_controller:
+          class: App\UI\Controller\MakeOfferedAnswerController
+          arguments:
+              - '@tactician.commandbus'
+              - '@infrastructure.doctrine.question_view'
+              - '@infrastructure.doctrine.offered_answer_view'
+
+
     application.command.create_survey:
           class: App\Application\Command\CreateNewSurveyHandler
           arguments:
               - '@survey.repository'
           tags:
               - { name: tactician.handler, command: App\Application\Command\CreateNewSurveyCommand }
+
+    application.command.create_question:
+          class: App\Application\Command\CreateNewQuestionHandler
+          arguments:
+              - '@question.repository'
+          tags:
+              - { name: tactician.handler, command: App\Application\Command\CreateNewQuestionCommand }
+
+    application.command.create_offered_answer:
+          class: App\Application\Command\CreateNewOfferedAnswerHandler
+          arguments:
+              - '@question.repository'
+          tags:
+              - { name: tactician.handler, command: App\Application\Command\CreateNewOfferedAnswerCommand }
+
+
+    infrastructure.doctrine.survey_view:
+          class: App\Infrastructure\Doctrine\DbalSurveyView
+          arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+    infrastructure.doctrine.question_view:
+          class : App\Infrastructure\Doctrine\DbalQuestionView
+          arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+    infrastructure.doctrine.offered_answer_view:
+          class : App\Infrastructure\Doctrine\DbalOfferedAnswerView
+          arguments: ['@Doctrine\DBAL\Driver\Connection']

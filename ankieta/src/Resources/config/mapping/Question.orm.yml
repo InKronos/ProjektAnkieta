@@ -1,0 +1,21 @@
+#Question.orm.yml
+App\Domain\Entity\Question:
+    type: entity
+    table: questions
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: NONE
+    fields:
+        id_survey:
+            type: string
+            length: 255
+            nullable: false
+        content:
+            type: string
+            length: 255
+            nullable: false
+        typ:
+            type: smallint
+            nullable: false

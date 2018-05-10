@@ -6,20 +6,23 @@ namespace App\UI\Controller;
 use App\Application\Command\CreateNewSurveyCommand;
 use App\UI\Form\SurveyType;
 use League\Tactician\CommandBus;
+use App\Application\Query\Survey\SurveyQuery;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MakeSurveyController extends Controller
 {
     private $commandBus;
 
-    public function __construct(CommandBus $commandBus)
+    private $surveyQuery;
+
+    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery)
     {
         $this->commandBus = $commandBus;
+        $this->surveyQuery = $surveyQuery;
     }
 
-    public function addAction(Request $request, SessionInterface $session, CommandBus $commandBus)
+    public function addAction(Request $request)
     {
         $formsurvey = $this->createForm(SurveyType::class);
         $formsurvey->handleRequest($request);
@@ -31,7 +34,8 @@ class MakeSurveyController extends Controller
             $command = new CreateNewSurveyCommand($data);
             $this->commandBus->handle($command);
 
-            //return $this->redirect('/question/add/'.($surveydata->getId()));
+            $survey = $this->surveyQuery->getByName($data);
+            return $this->redirectToRoute('add_question', ['id' => $survey->getId()]);
         }
 
         return $this->render('survey/renderSurvey.html.twig', [

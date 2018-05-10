@@ -7,20 +7,8 @@
     <body>
         <h1>Tworzysz pytania do {{ artykul.name }}<h1>
         <h2>Dodaj Pytanie</h2>
-        {{ form_start(formquestion) }}
-        {{ form_widget(formquestion) }}
-        {{ form_end(formquestion) }}
-        {% if sthIsNeed == false %}
-        {% else %}
-            {% if new == true %}  
-                {{ form_start(formend) }}
-                {{ form_widget(formend) }}
-                {{ form_end(formend) }}
-            {% endif %}
-        {% endif %}
-        {% if new == true %}  
-        {% else %}
-            <a href="/show/survey/{{ artykul.id }}"><button>Powrót</button></a>
-        {% endif %}
+        {{ form_start(formQuestion) }}
+        {{ form_widget(formQuestion) }}
+        {{ form_end(formQuestion) }}
     </body>
 </html>

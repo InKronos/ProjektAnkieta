@@ -2,7 +2,6 @@
 
 namespace App\Application\Command;
 
-
 use App\Domain\Entity\Survey;
 use App\Domain\Repository\SurveyRepository;
 

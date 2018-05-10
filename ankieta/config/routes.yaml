@@ -4,9 +4,9 @@ logowanie:
 control_panel:
     path: /panel
     controller: 'App\Controller\ControlPanelController::index'
-make_survey:
+add_survey:
     path: /stworz
-    controller: 'App\UI\Controller\MakeSurveyController::addAction'
+    controller: ui.controller.survey_controller:addAction
 show_survey:
     path: /show/survey
     controller: 'App\Controller\ShowSurveyController::showSurvey'
@@ -19,3 +19,9 @@ thanks_survey:
 generate_code:
     path: /generate/code
     controller: 'App\Controller\GenerateCodeController::index'
+add_question:
+    path: /question/add/{id}
+    controller: ui.controller.question_controller:addAction
+add_offered_answer:
+    path: /question/answer/{option}/{id}
+    controller: ui.controller.offered_answer_controller:addAction

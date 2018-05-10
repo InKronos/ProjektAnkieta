@@ -1,0 +1,18 @@
+#OfferedAnswerRepository.orm.yml
+App\Domain\Entity\OfferedAnswer:
+      type: entity
+      table: offeredAnswers
+      id:
+          id:
+              type: uuid
+              generator:
+                  strategy: NONE
+      fields:
+          id_question:
+              type: string
+              length: 40
+              nullable: false
+          content:
+              type: string
+              length: 255
+              nullable: false
