@@ -1,0 +1,17 @@
+#Answer.orm.yml
+App\Domain\Entity\Answer:
+      type: entity
+      table: answers
+      id:
+          id:
+              type: uuid
+              generator:
+                  strategy: NONE
+      fields:
+          id_survey:
+              type: string
+              length: 40
+              nullable: false
+          answers:
+              type: array
+              nullable: false

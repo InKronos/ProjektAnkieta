@@ -3,16 +3,14 @@ logowanie:
     controller: 'App\Controller\LoginController::logowanie'
 control_panel:
     path: /panel
-    controller: 'App\Controller\ControlPanelController::index'
+    controller: ui.controller.control_panel_controller:indexAction
 add_survey:
     path: /stworz
     controller: ui.controller.survey_controller:addAction
-show_survey:
-    path: /show/survey
-    controller: 'App\Controller\ShowSurveyController::showSurvey'
+
 main_page:
     path: /
-    controller: 'App\Controller\MainPageController::index'
+    controller: ui.controller.main_page_controller:indexAction
 thanks_survey:
     path: /thanks/survey
     controller: 'App\Controller\FillSurveyController::thanksAction'
@@ -25,3 +23,24 @@ add_question:
 add_offered_answer:
     path: /question/answer/{option}/{id}
     controller: ui.controller.offered_answer_controller:addAction
+add_offered_answer_thanks:
+    path: /question/answers/{option}/thanks/{id}
+    controller: ui.controller.offered_answer_controller:thanksAction
+thankU:
+    path: /thankU/{id}
+    controller: ui.controller.survey_controller:thanksAction
+show_surveys:
+    path: /show/survey
+    controller: ui.controller.show_survey_controller:showSurvey
+show_survey_questions:
+    path: /show/survey/{id}
+    controller: ui.controller.show_survey_controller:showQuestions
+delete_survey:
+    path: /survey/delete/{id}
+    controller: ui.controller.survey_controller:deleteAction
+show_survey_question_answers:
+    path: /show/survey/question/{id}
+    controller: ui.controller.show_survey_controller:showQuestionAnswers
+fill_survey:
+    path: /survey/fill/{id}
+    controller: ui.controller.fill_survey_controller:fillAction

@@ -29,7 +29,7 @@ class DbalOfferedAnswerView implements OfferedAnswerQuery
     public function getById(string $offeredAnswerId): OfferedAnswerView
     {
         $result = $this->connection->fetchAssoc('
-            SELECT oA.id, oA.id_question, oA.content, FROM offeredAnswer AS oA 
+            SELECT oA.id, oA.id_question, oA.content FROM offeredAnswers AS oA 
             WHERE oA.id = :id',
             [
                 ':id' => $offeredAnswerId,
@@ -44,21 +44,38 @@ class DbalOfferedAnswerView implements OfferedAnswerQuery
     public function getByIdQuestion(string $offeredAnswerIdQuestion): OfferedAnswerView
     {
         $result = $this->connection->fetchAssoc('
-            SELECT oA.id, oA.id_question, oA.content, FROM offeredAnswer AS oA 
+            SELECT oA.id, oA.id_question, oA.content FROM offeredAnswers AS oA 
             WHERE oA.id_question = :id_question',
             [
                 ':id_question' => $offeredAnswerIdQuestion,
             ]
         );
 
-        if(!$result);
+        if(!$result)
+            return new OfferedAnswerView( 'nothing', 'nothing', 'nothing');
+        else
+            return new OfferedAnswerView($result['id'], $result['id_question'], $result['content']);
 
-        return new OfferedAnswerView($result['id'], $result['id_question'], $result['content']);
+    }
+
+    public function getManyByIdQuestion(string $offeredAnswerIdQuestion): array
+    {
+        $results = $this->connection->fetchAll('
+            SELECT oA.id, oA.id_question, oA.content FROM offeredAnswers AS oA 
+            WHERE oA.id_question = :id_question',
+            [
+                ':id_question' => $offeredAnswerIdQuestion,
+            ]
+        );
+
+        return array_map(function (array  $result){
+            return new OfferedAnswerView($result['id'], $result['id_question'], $result['content']);
+        }, $results);
     }
 
     public function getAll(): array
     {
-        $results = $this->connection->fetchAll('SELECT oA.id, oA.id_question, oA.content, FROM offeredAnswer AS oA');
+        $results = $this->connection->fetchAll('SELECT oA.id, oA.id_question, oA.content FROM offeredAnswer AS oA');
 
         return array_map(function (array  $result){
             return new OfferedAnswerView($result['id'], $result['id_question'], $result['content']);

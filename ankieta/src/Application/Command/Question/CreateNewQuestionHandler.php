@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Command;
+namespace App\Application\Command\Question;
 
 use App\Domain\Entity\Question;
 use App\Domain\Repository\QuestionRepository;
@@ -21,6 +21,7 @@ class CreateNewQuestionHandler
             $command->getContent(),
             $command->getTyp()
         );
+
         $this->question->add($question);
     }
 }

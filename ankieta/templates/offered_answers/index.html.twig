@@ -5,16 +5,13 @@
         <title>My Webpage</title>
     </head>
     <body>
-        <h2>Dodajesz odpowiedzi do pytania {{pytanie.content}}<h2>
+        <h2>Dodajesz odpowiedzi do pytania {{questionData.content}}</h2>
         <h3>Dodaj Pytanie</h3>
         {{ form_start(formoffered) }}
         {{ form_widget(formoffered) }}
         {{ form_end(formoffered) }}
-        {{ form_start(formend) }}
-        {{ form_widget(formend) }}
-        {{ form_end(formend) }}
-        {% if sthIsNeed == true %}
-            <span style="color:red">Musisz mieć przynajmiej jedną odpowiedź</span>
+         {% if haveQue == true %}
+            <a href="/question/answers/add/thanks/{{ questionData.getId }}"><button>Powrót</button></a>
         {% endif %}
     </body>
 </html>

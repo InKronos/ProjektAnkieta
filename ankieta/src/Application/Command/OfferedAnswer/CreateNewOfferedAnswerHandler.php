@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 10.05.18
- * Time: 14:55
- */
 
-namespace App\Application\Command;
+namespace App\Application\Command\OfferedAnswer;
 
 use App\Domain\Entity\OfferedAnswer;
 use App\Domain\Repository\OfferedAnswerRepository;
@@ -20,12 +14,13 @@ class CreateNewOfferedAnswerHandler
         $this->offeredAnswer = $offeredAnswer;
     }
 
-    public function handle(CreateNewOfferedAnswerCommand $command)
+    public function handle(CreateNewOfferedAnswerCommand $command): void
     {
         $offeredAnswer = new OfferedAnswer(
             $command->getIdQuestion(),
             $command->getContent()
         );
+
         $this->offeredAnswer->add($offeredAnswer);
     }
 }

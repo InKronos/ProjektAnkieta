@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Application\Command;
+namespace App\Application\Command\Question;
 
 
 class CreateNewQuestionCommand

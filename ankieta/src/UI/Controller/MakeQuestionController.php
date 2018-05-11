@@ -2,7 +2,7 @@
 
 namespace App\UI\Controller;
 
-use App\Application\Command\CreateNewQuestionCommand;
+use App\Application\Command\Question\CreateNewQuestionCommand;
 use App\UI\Form\QuestionType;
 use League\Tactician\CommandBus;
 use App\Application\Query\Survey\SurveyQuery;
@@ -30,32 +30,24 @@ class MakeQuestionController extends Controller
         $formQuestion = $this->createForm(QuestionType::class);
         $formQuestion->handleRequest($request);
         $surveyData = $this->surveyQuery->getById($id);
-        /*$HowManyQue = $entityManager
-            ->getRepository(Questions::class)
-            ->findBy(['id_survey' => $surveydata->getId()]);
 
-        /*if(!$HowManyQue) {
-            $sthIsNeed = false;
+        $questionData = $this->questionQuery->getByIdSurvey($id);
+        if($questionData->getId() == 'nothing'){
+            $haveQue = false;
         } else {
-            $sthIsNeed = true;
-        }*/
-
-       /* if($session->has('IamNew')) {
-            $INew = true;
-        } else {
-            $INew = false;
-        }*/
+            $haveQue = true;
+        }
 
         if ($formQuestion->isSubmitted() && $formQuestion->isValid())
         {
             $command = new CreateNewQuestionCommand($id, $formQuestion['content']->getData(), $formQuestion['typ']->getData());
             $this->commandBus->handle($command);
 
-            $questionData = $this->questionQuery->getByIdSurvey($id);
+            $questionData = $this->questionQuery->getOneByIdSurveyAndContent($id, $formQuestion['content']->getData());
 
             if($questionData->getTyp() == 1 || $questionData->getTyp() == 2)
             {
-                //return $this->redirect('/question/answer/add/'.$questiondata->getId());
+                return $this->redirectToRoute('add_offered_answer', ['option' => 'add', 'id' => $questionData->getId()]);
             }
             else
             {
@@ -63,16 +55,10 @@ class MakeQuestionController extends Controller
             }
         }
 
-        /*if ($formend->isSubmitted() && $formend->isValid())
-        {
-                return $this->redirect('/dziekujemy/'.($surveydata->getId()));
-        }*/
-
         return $this->render('make_question/addQuestion.html.twig', [
                 'formQuestion' => $formQuestion->createView(),
                 'artykul' => $surveyData,
+                'haveQue' => $haveQue,
             ]);
     }
-
-
 }

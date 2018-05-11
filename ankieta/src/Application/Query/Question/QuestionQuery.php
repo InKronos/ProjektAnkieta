@@ -10,6 +10,10 @@ interface QuestionQuery
 
     public function getByIdSurvey(string $questionIdSurvey): QuestionView;
 
+    public function getOneByIdSurveyAndContent(string $questionIdSurvey, string $questionContent): QuestionView;
+
+    public function getManyByIdSurvey(string $questionIdSurvey): array;
+
     public function getAll(): array;
 
 }

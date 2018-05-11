@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Command;
+namespace App\Application\Command\Survey;
 
 use App\Domain\Entity\Survey;
 use App\Domain\Repository\SurveyRepository;

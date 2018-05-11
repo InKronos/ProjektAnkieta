@@ -4,14 +4,14 @@
         <title>My Webpage</title>
     </head>
     <body>
-        <h3>Dodane odpowiedzi: <h3>
+        <h3>Dodane odpowiedzi do pytania {{ question.content }}: </h3>
         <ul id="list">
             {% for item in items %}
                 <li>{{ item.content }}</li>
             {% endfor %}
-            {{ form_start(formend) }}
-            {{ form_widget(formend.zakoncz, { 'label': 'Ok' }) }}
-            {{ form_end(formend) }}
         </ul>
+        {% if option == 'add' %}
+            <a href="/question/add/{{ question.getIdSurvey }}"><button>OK</button></a>
+        {% endif %}
     </body>
 </html>

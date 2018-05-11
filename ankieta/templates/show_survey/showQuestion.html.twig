@@ -25,9 +25,6 @@
         {% else %}
             Otwarte</strong>
         {% endif %}
-        {{ form_start(formend) }}
-        {{ form_widget(formend.zakoncz, { 'label': 'usun' }) }}
-        {{ form_end(formend) }}
         <a href="/question/edit/{{ question.getId() }}"><button>Edytuj</button></a>
         <a href="/show/survey/{{ question.getIdSurvey() }}"><button>Powrót</button></a>
     </body>
