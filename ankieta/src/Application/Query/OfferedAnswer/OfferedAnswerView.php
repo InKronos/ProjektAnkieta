@@ -11,7 +11,7 @@ class OfferedAnswerView
 
     private $content;
 
-    public function __construct(string $id, string $id_question, string $content)
+    public function __construct($id, $id_question, $content)
     {
         $this->id =$id;
         $this->id_question = $id_question;
@@ -19,27 +19,28 @@ class OfferedAnswerView
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getId(): string
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getIdQuestion(): string
+    public function getIdQuestion()
     {
         return $this->id_question;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getContent(): string
+    public function getContent()
     {
         return $this->content;
     }
+
 
 }

@@ -57,6 +57,8 @@ services:
               - '@infrastructure.doctrine.survey_view'
               - '@infrastructure.doctrine.question_view'
               - '@infrastructure.doctrine.offered_answer_view'
+              - '@infrastructure.doctrine.answer_view'
+
 
     ui.controller.question_controller:
           class: App\UI\Controller\MakeQuestionController
@@ -64,6 +66,7 @@ services:
               - '@tactician.commandbus'
               - '@infrastructure.doctrine.survey_view'
               - '@infrastructure.doctrine.question_view'
+              - '@infrastructure.doctrine.offered_answer_view'
         #  tags: ['controller.service_arguments']
     ui.controller.offered_answer_controller:
           class: App\UI\Controller\MakeOfferedAnswerController
@@ -91,12 +94,29 @@ services:
             - '@infrastructure.doctrine.survey_view'
         calls:
             - [setContainer, ['@service_container']]
+
     ui.controller.fill_survey_controller:
         class: App\UI\Controller\FillSurveyController
         arguments:
             - '@tactician.commandbus'
         calls:
             - [setContainer, ['@service_container']]
+
+    ui.controller.show_table_answers_controller:
+        class: App\UI\Controller\ShowTableAnswersController
+        arguments:
+              - '@infrastructure.doctrine.answer_view'
+              - '@infrastructure.doctrine.question_view'
+              - '@infrastructure.doctrine.survey_view'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    ui.form.generate_survey_type:
+        class: App\UI\Form\GenerateSurveyType
+        arguments:
+            - '@infrastructure.doctrine.survey_view'
+            - '@infrastructure.doctrine.question_view'
+            - '@infrastructure.doctrine.offered_answer_view'
 
 
     application.command.create_survey:
@@ -141,6 +161,26 @@ services:
         tags:
             - { name: tactician.handler, command: App\Application\Command\Survey\DeleteSurveyCommand }
 
+    application.command.create_answer:
+        class: App\Application\Command\Answer\CreateNewAnswerHandler
+        arguments:
+            - '@answer.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Answer\CreateNewAnswerCommand }
+
+    application.command.answer.delete_answer:
+        class: App\Application\Command\Answer\DeleteAnswerHandler
+        arguments:
+            - '@answer.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Answer\DeleteAnswerCommand }
+
+    application.command.question.update_question:
+        class: App\Application\Command\Question\UpdateQuestionHandler
+        arguments:
+            - '@question.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Question\UpdateQuestionCommand }
 
 
     infrastructure.doctrine.survey_view:
@@ -154,3 +194,7 @@ services:
     infrastructure.doctrine.offered_answer_view:
           class : App\Infrastructure\Doctrine\DbalOfferedAnswerView
           arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+    infrastructure.doctrine.answer_view:
+              class : App\Infrastructure\Doctrine\DbalAnswerView
+              arguments: ['@Doctrine\DBAL\Driver\Connection']

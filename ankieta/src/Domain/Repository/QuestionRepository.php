@@ -9,4 +9,6 @@ interface QuestionRepository
     public function add(Question $question);
 
     public function delete(Question $question);
+
+    public function update(Question $question);
 }

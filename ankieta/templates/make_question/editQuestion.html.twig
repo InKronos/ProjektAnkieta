@@ -6,9 +6,9 @@
     <body>
         <h1>Edytujesz pytanie {{ question.content }}<h1>
         <h2>Dodaj Pytanie</h2>
-        {{ form_start(formquestion) }}
-        {{ form_widget(formquestion) }}
-        {{ form_end(formquestion) }}
+        {{ form_start(formQuestion) }}
+        {{ form_widget(formQuestion) }}
+        {{ form_end(formQuestion) }}
             <a href="/show/survey/question/{{ question.id }}"><button>Powrót</button></a>
     </body>
 </html>

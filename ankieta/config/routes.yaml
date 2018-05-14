@@ -11,14 +11,11 @@ add_survey:
 main_page:
     path: /
     controller: ui.controller.main_page_controller:indexAction
-thanks_survey:
-    path: /thanks/survey
-    controller: 'App\Controller\FillSurveyController::thanksAction'
 generate_code:
     path: /generate/code
     controller: 'App\Controller\GenerateCodeController::index'
 add_question:
-    path: /question/add/{id}
+    path: /question/add/{option}/{id}
     controller: ui.controller.question_controller:addAction
 add_offered_answer:
     path: /question/answer/{option}/{id}
@@ -44,3 +41,18 @@ show_survey_question_answers:
 fill_survey:
     path: /survey/fill/{id}
     controller: ui.controller.fill_survey_controller:fillAction
+
+thanks_for_fill_survey:
+    path: /thanks/survey
+    controller: ui.controller.fill_survey_controller:thanksAction
+
+delete_question:
+    path: /question/delete/{id}
+    controller: ui.controller.question_controller:deleteAction
+show_table_answers:
+    path: /show/table/answers
+    controller: ui.controller.show_table_answers_controller:indexAction
+
+edit_question:
+    path: /question/edit/{id}
+    controller: ui.controller.question_controller:editAction

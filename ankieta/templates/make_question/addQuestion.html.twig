@@ -11,7 +11,11 @@
         {{ form_widget(formQuestion) }}
         {{ form_end(formQuestion) }}
         {% if haveQue == true %}
-            <a href="/thankU/{{ artykul.id }}"><button>Zakończ</button></a>
+            {% if option == 'old' %}
+                <a href="/show/survey/{{ artykul.id }}"><button>Powrót</button></a>
+            {% else %}
+                <a href="/thankU/{{ artykul.id }}"><button>Zakończ</button></a>
+            {% endif %}
         {% endif %}
     </body>
 </html>

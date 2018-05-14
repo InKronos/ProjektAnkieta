@@ -5,7 +5,6 @@ namespace App\UI\Controller;
 use App\UI\Form\GenerateSurveyType;
 use App\Application\Command\Answer\CreateNewAnswerCommand;
 use League\Tactician\CommandBus;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,34 +55,26 @@ class FillSurveyController extends Controller
                 $command = new CreateNewAnswerCommand($id, $form->getData());
                 $this->commandBus->handle($command);
 
-                return $this->redirectToRoute("thanks_survey");
+                return $this->redirectToRoute("thanks_for_fill_survey");
         }
 
         return $this->render('fill_survey/index.html.twig', [
                 'form' => $form->createView(),
             ]);
     }
-    /*
-     * @Route("/survey/thanks", name="thanks_survey")
-     */
-    /*public function thanksAction()
+
+    public function thanksAction()
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $Rcode = $entityManager
-                    ->getRepository(RebateCode::class)
-                    ->findOneBy(['used' => false]);
 
-        if(!$Rcode) {
-            return $this->redirectToRoute("generate_code");
-        } else {
-            $Rcode->setUsed(true);
-            $entityManager->flush();
-            return $this->render('fill_survey/thanks.html.twig', [
-                'rebate' => $Rcode
-            ]);
-        }
+        //$Rcode =
 
 
-    }*/
+        return $this->render('fill_survey/thanks.html.twig', [
+            //'rebate' => $Rcode
+        ]);
+
+
+
+    }
 
 }

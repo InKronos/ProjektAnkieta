@@ -26,6 +26,8 @@
             Otwarte</strong>
         {% endif %}
         <a href="/question/edit/{{ question.getId() }}"><button>Edytuj</button></a>
+        <a href="/question/answer/addToOld/{{ question.getId() }}"><button>Dodaj kolejne</button></a>
+        <a href="/question/delete/{{ question.getId() }}"><button>Usuń</button></a>
         <a href="/show/survey/{{ question.getIdSurvey() }}"><button>Powrót</button></a>
     </body>
 </html>

@@ -20,7 +20,7 @@ class ControlPanelController extends Controller
             } elseif ($formpanel['choice']->getData() == 2) {
                 return $this->redirectToRoute('show_surveys');
             } else {
-               // return $this->redirectToRoute('show_table_answers');
+                return $this->redirectToRoute('show_table_answers');
             }
         }
 

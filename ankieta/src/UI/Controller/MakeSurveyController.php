@@ -9,7 +9,9 @@ use League\Tactician\CommandBus;
 use App\Application\Query\Survey\SurveyQuery;
 use App\Application\Query\OfferedAnswer\OfferedAnswerQuery;
 use App\Application\Query\Question\QuestionQuery;
+use App\Application\Query\Answer\AnswerQuery;
 use App\Application\Command\OfferedAnswer\DeleteOfferedAnswerCommand;
+use App\Application\Command\Answer\DeleteAnswerCommand;
 use App\Application\Command\Question\DeleteQuestionCommand;
 use App\Application\Command\Survey\DeleteSurveyCommand;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,12 +27,15 @@ class MakeSurveyController extends Controller
 
     private $offeredAnswerQuery;
 
-    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery)
+    private $answerQuery;
+
+    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery, AnswerQuery $answerQuery)
     {
         $this->commandBus = $commandBus;
         $this->surveyQuery = $surveyQuery;
         $this->questionQuery = $questionQuery;
         $this->offeredAnswerQuery = $offeredAnswerQuery;
+        $this->answerQuery = $answerQuery;
     }
 
     public function addAction(Request $request)
@@ -46,7 +51,7 @@ class MakeSurveyController extends Controller
             $this->commandBus->handle($command);
 
             $survey = $this->surveyQuery->getByName($name);
-            return $this->redirectToRoute('add_question', ['id' => $survey->getId()]);
+            return $this->redirectToRoute('add_question', ['option' => 'new', 'id' => $survey->getId()]);
         }
 
         return $this->render('survey/renderSurvey.html.twig', [
@@ -58,7 +63,7 @@ class MakeSurveyController extends Controller
     {
         $surveyData = $this->surveyQuery->getById($id);
         $questionData = $this->questionQuery->getManyByIdSurvey($id);
-        // $answerdata usuwanie odpowiedzi
+        $answerData = $this->answerQuery->getManyByIdSurvey($surveyData->getId());
 
         foreach ($questionData as $question)
         {
@@ -71,10 +76,14 @@ class MakeSurveyController extends Controller
             $this->commandBus->handle($command);
         }
 
+        foreach ($answerData as $answer) {
+            $command = new DeleteAnswerCommand($answer->getId());
+            $this->commandBus->handle($command);
+        }
         $command = new DeleteSurveyCommand($surveyData->getId());
         $this->commandBus->handle($command);
 
-        return $this->redirect('/show/survey');
+        return $this->redirectToRoute('show_surveys');
     }
 
     public function thanksAction($id)

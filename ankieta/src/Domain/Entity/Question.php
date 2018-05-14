@@ -22,5 +22,21 @@ class Question
         $this->typ = $typ;
     }
 
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * @param int $typ
+     */
+    public function setTyp(int $typ): void
+    {
+        $this->typ = $typ;
+    }
+
 
 }

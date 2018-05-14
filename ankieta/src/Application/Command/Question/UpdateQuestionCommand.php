@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Application\Query\Question;
+
+namespace App\Application\Command\Question;
 
 
-class QuestionView
+class UpdateQuestionCommand
 {
     private $id;
-
-    private $id_survey;
 
     private $content;
 
     private $typ;
 
-    public function __construct($id, $id_survey, $content, $typ)
+    public function __construct($id, $content, $typ)
     {
         $this->id = $id;
-        $this->id_survey = $id_survey;
         $this->content = $content;
         $this->typ = $typ;
     }
@@ -27,14 +25,6 @@ class QuestionView
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdSurvey()
-    {
-        return $this->id_survey;
     }
 
     /**

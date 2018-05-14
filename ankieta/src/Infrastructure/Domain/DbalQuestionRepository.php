@@ -29,4 +29,9 @@ class DbalQuestionRepository extends ServiceEntityRepository implements Question
         $this->getEntityManager()->remove($question);
         $this->getEntityManager()->flush();
     }
+
+    public function update(Question $question)
+    {
+        $this->getEntityManager()->flush();
+    }
 }

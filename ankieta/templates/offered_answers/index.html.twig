@@ -11,7 +11,11 @@
         {{ form_widget(formoffered) }}
         {{ form_end(formoffered) }}
          {% if haveQue == true %}
-            <a href="/question/answers/add/thanks/{{ questionData.getId }}"><button>Powrót</button></a>
+             {% if option == 'addToNew' %}
+                 <a href="/question/answers/add/thanks/{{ questionData.getId }}"><button>Powrót</button></a>
+             {% elseif option == 'addToOld' %}
+                 <a href="/show/survey/{{ questionData.getIdSurvey }}"><button>Powrót</button></a>
+             {% endif %}
         {% endif %}
     </body>
 </html>

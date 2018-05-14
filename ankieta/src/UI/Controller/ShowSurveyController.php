@@ -48,7 +48,7 @@ class ShowSurveyController extends Controller
         ]);
     }
 
-     public function showQuestionAnswers($id, Request $request)
+     public function showQuestionAnswers($id)
      {
         $questionData = $this->questionQuery->getById($id);
         $offeredanswersData = $this->offeredAnswerQuery->getManyByIdQuestion($id);

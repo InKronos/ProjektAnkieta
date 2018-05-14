@@ -44,13 +44,16 @@ class MakeOfferedAnswerController extends Controller
         {
             $command = new CreateNewOfferedAnswerCommand($id_question, $formoffered['content']->getData());
             $this->commandBus->handle($command);
+
             return $this->redirectToRoute('add_offered_answer', ['option' => $option, 'id' => $id_question]);
+
         }
 
         return $this->render('offered_answers/index.html.twig', [
             'formoffered' => $formoffered->createView(),
             'questionData' => $questionData,
             'haveQue' => $haveQue,
+            'option' => $option,
         ]);
     }
 

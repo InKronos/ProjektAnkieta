@@ -4,7 +4,7 @@ namespace App\Application\Command\Question;
 
 use App\Domain\Repository\QuestionRepository;
 
-class DeleteQuestionHandler
+class UpdateQuestionHandler
 {
     private $question;
 
@@ -13,10 +13,13 @@ class DeleteQuestionHandler
         $this->question = $question;
     }
 
-    public function handle(DeleteQuestionCommand $command) : void
+    public function handle(UpdateQuestionCommand $command)
     {
         $question = $this->question->find($command->getId());
+        $question->setContent($command->getContent());
+        $question->setTyp($command->getTyp());
 
-        $this->question->add($question);
+        $this->question->update($question);
     }
+
 }

@@ -22,7 +22,7 @@
         <h1>Ankiety: <h1>
         <h5>Naciśnij, aby wypełnić</h5>
             {% for survey in surveys %}
-                <a href="/survey/{{ survey.id }}">
+                <a href="/survey/fill/{{ survey.id }}">
                     <div class="ankiety">{{ survey.name }}</div>
                 </a>
             {% endfor %}
