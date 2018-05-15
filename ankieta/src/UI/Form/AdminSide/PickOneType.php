@@ -1,20 +1,26 @@
 <?php
 
-namespace App\UI\Form;
+namespace App\UI\Form\AdminSide;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class SurveyType extends AbstractType
+class PickOneType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array('label' => 'Nazwa Ankiety '))
-            ->add('utorz', SubmitType::class, array('label' => 'utwórz'))
+            ->add('choice', ChoiceType::class,
+                array('choices' => array(
+                    'Stwórz Ankiete' => '1',
+                    'Zobacz Ankiety' => '2',
+                    'Zobacz Odpowiedzi do ankiet' => '3'
+                ))
+            )
+            ->add('dalej', SubmitType::class, array('label' => 'wybierz'))
         ;
     }
 

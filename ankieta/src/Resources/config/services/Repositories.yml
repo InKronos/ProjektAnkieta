@@ -1,0 +1,27 @@
+services:
+      survey.repository:
+            class: App\Infrastructure\Domain\DbalSurveyRepository
+            arguments:
+                - '@doctrine'
+
+      question.repository:
+            class: App\Infrastructure\Domain\DbalQuestionRepository
+            arguments:
+                - '@doctrine'
+
+      offered_answer.repository:
+            class: App\Infrastructure\Domain\DbalOfferedAnswerRepository
+            arguments:
+                - '@doctrine'
+      answer.repository:
+          class: App\Infrastructure\Domain\DbalAnswerRepository
+          arguments:
+                - '@doctrine'
+      user.repository:
+          class: App\Infrastructure\Domain\DbalUserRepository
+          arguments:
+                - '@doctrine'
+      rebate_code.repository:
+          class: App\Infrastructure\Domain\DbalRebateCodeRepository
+          arguments:
+                - '@doctrine'

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UI\Controller;
+namespace App\UI\Controller\UserSide;
 
 use App\Application\Query\Survey\SurveyQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,11 +16,11 @@ class MainPageController extends Controller
 
     public function indexAction()
     {
-        $surveydata = $this->surveyQuery->getAll();
+        $surveyData = $this->surveyQuery->getAll();
 
 
         return $this->render('main_page/index.html.twig', [
-            'surveys' => $surveydata,
+            'surveys' => $surveyData,
         ]);
     }
 }

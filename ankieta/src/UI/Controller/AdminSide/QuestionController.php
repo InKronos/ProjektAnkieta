@@ -1,20 +1,21 @@
 <?php
 
-namespace App\UI\Controller;
+namespace App\UI\Controller\AdminSide;
 
 use App\Application\Command\Question\CreateNewQuestionCommand;
 use App\Application\Command\OfferedAnswer\DeleteOfferedAnswerCommand;
 use App\Application\Command\Question\DeleteQuestionCommand;
 use App\Application\Command\Question\UpdateQuestionCommand;
-use App\UI\Form\QuestionType;
+use App\UI\Form\AdminSide\QuestionType;
 use League\Tactician\CommandBus;
 use App\Application\Query\Survey\SurveyQuery;
 use App\Application\Query\Question\QuestionQuery;
 use App\Application\Query\OfferedAnswer\OfferedAnswerQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class MakeQuestionController extends Controller
+class QuestionController extends Controller
 {
     private $commandBus;
 
@@ -24,16 +25,23 @@ class MakeQuestionController extends Controller
 
     private $offeredAnswerQuery;
 
-    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery)
+    private $session;
+
+    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery, SessionInterface $session)
     {
         $this->commandBus = $commandBus;
         $this->surveyQuery = $surveyQuery;
         $this->questionQuery = $questionQuery;
         $this->offeredAnswerQuery = $offeredAnswerQuery;
+        $this->session = $session;
     }
 
     public function addAction($id, $option, Request $request)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $formQuestion = $this->createForm(QuestionType::class);
         $formQuestion->handleRequest($request);
         $surveyData = $this->surveyQuery->getById($id);
@@ -80,6 +88,10 @@ class MakeQuestionController extends Controller
 
     public function deleteAction($id)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $questionData = $this->questionQuery->getById($id);
         $offeredanswersData = $this->offeredAnswerQuery->getManyByIdQuestion($questionData->getId());
 
@@ -91,14 +103,15 @@ class MakeQuestionController extends Controller
         $command = new DeleteQuestionCommand($questionData->getId());
         $this->commandBus->handle($command);
 
-
-
-
         return $this->redirectToRoute('show_survey_questions', [ 'id' => $id_survey]);
     }
 
     public function editAction($id, Request $request)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $formQuestion = $this->createForm(QuestionType::class);
         $formQuestion->handleRequest($request);
 

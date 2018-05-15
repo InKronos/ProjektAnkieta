@@ -1,16 +1,17 @@
 <?php
 
-namespace App\UI\Controller;
+namespace App\UI\Controller\AdminSide;
 
-use App\UI\Form\OfferedAnswerType;
+use App\UI\Form\AdminSide\OfferedAnswerType;
 use League\Tactician\CommandBus;
 use App\Application\Command\OfferedAnswer\CreateNewOfferedAnswerCommand;
 use App\Application\Query\OfferedAnswer\OfferedAnswerQuery;
 use App\Application\Query\Question\QuestionQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class MakeOfferedAnswerController extends Controller
+class OfferedAnswerController extends Controller
 {
     private $commandBus;
 
@@ -18,15 +19,22 @@ class MakeOfferedAnswerController extends Controller
 
     private $offeredAnswerQuery;
 
-    public function __construct(CommandBus $commandBus, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery)
+    private $session;
+
+    public function __construct(CommandBus $commandBus, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery, SessionInterface $session)
     {
         $this->commandBus = $commandBus;
         $this->questionQuery = $questionQuery;
         $this->offeredAnswerQuery = $offeredAnswerQuery;
+        $this->session = $session;
     }
 
     public function addAction($option ,$id, Request $request)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $id_question = $id;
         $questionData = $this->questionQuery->getById($id_question);
 
@@ -59,6 +67,10 @@ class MakeOfferedAnswerController extends Controller
 
     public function thanksAction($option, $id)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $id_question = $id;
         $questionData = $this->questionQuery->getById($id_question);
         $offeredAnswersData = $this->offeredAnswerQuery->getManyByIdQuestion($id_question);

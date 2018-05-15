@@ -1,0 +1,17 @@
+#RebateCode.orm.yml
+App\Domain\Entity\RebateCode:
+    type: entity
+    table: rebateCodes
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: NONE
+    fields:
+        code:
+            type: string
+            length: 255
+            nullable: false
+        used:
+            type: boolean
+            nullable: false

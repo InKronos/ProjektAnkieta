@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UI\Form;
+namespace App\UI\Form\AdminSide;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

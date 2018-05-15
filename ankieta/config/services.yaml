@@ -48,10 +48,18 @@ services:
         class: App\Infrastructure\Domain\DbalAnswerRepository
         arguments:
               - '@doctrine'
+    user.repository:
+        class: App\Infrastructure\Domain\DbalUserRepository
+        arguments:
+              - '@doctrine'
+    rebate_code.repository:
+        class: App\Infrastructure\Domain\DbalRebateCodeRepository
+        arguments:
+              - '@doctrine'
 
 
     ui.controller.survey_controller:
-          class: App\UI\Controller\MakeSurveyController
+          class: App\UI\Controller\AdminSide\SurveyController
           arguments:
               - '@tactician.commandbus'
               - '@infrastructure.doctrine.survey_view'
@@ -61,7 +69,7 @@ services:
 
 
     ui.controller.question_controller:
-          class: App\UI\Controller\MakeQuestionController
+          class: App\UI\Controller\AdminSide\QuestionController
           arguments:
               - '@tactician.commandbus'
               - '@infrastructure.doctrine.survey_view'
@@ -69,19 +77,19 @@ services:
               - '@infrastructure.doctrine.offered_answer_view'
         #  tags: ['controller.service_arguments']
     ui.controller.offered_answer_controller:
-          class: App\UI\Controller\MakeOfferedAnswerController
+          class: App\UI\Controller\AdminSide\OfferedAnswerController
           arguments:
               - '@tactician.commandbus'
               - '@infrastructure.doctrine.question_view'
               - '@infrastructure.doctrine.offered_answer_view'
         #  tags: ['controller.service_arguments']
     ui.controller.control_panel_controller:
-        class: App\UI\Controller\ControlPanelController
+        class: App\UI\Controller\AdminSide\ControlPanelController
         calls:
             - [setContainer, ['@service_container']]
 
     ui.controller.show_survey_controller:
-        class: App\UI\Controller\ShowSurveyController
+        class: App\UI\Controller\AdminSide\ShowSurveyController
         arguments:
             - '@tactician.commandbus'
             - '@infrastructure.doctrine.survey_view'
@@ -89,21 +97,22 @@ services:
             - '@infrastructure.doctrine.offered_answer_view'
 
     ui.controller.main_page_controller:
-        class: App\UI\Controller\MainPageController
+        class: App\UI\Controller\UserSide\MainPageController
         arguments:
             - '@infrastructure.doctrine.survey_view'
         calls:
             - [setContainer, ['@service_container']]
 
     ui.controller.fill_survey_controller:
-        class: App\UI\Controller\FillSurveyController
+        class: App\UI\Controller\UserSide\FillSurveyController
         arguments:
             - '@tactician.commandbus'
+            - '@infrastructure.doctrine.rebate_code_view'
         calls:
             - [setContainer, ['@service_container']]
 
     ui.controller.show_table_answers_controller:
-        class: App\UI\Controller\ShowTableAnswersController
+        class: App\UI\Controller\AdminSide\ShowTableAnswersController
         arguments:
               - '@infrastructure.doctrine.answer_view'
               - '@infrastructure.doctrine.question_view'
@@ -111,12 +120,34 @@ services:
         calls:
             - [setContainer, ['@service_container']]
 
+    ui.controller.login_controller:
+        class: App\UI\Controller\AdminSide\LoginController
+        arguments:
+              - '@infrastructure.doctrine.user_view'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    ui.controller.users_controller:
+        class: App\UI\Controller\AdminSide\UsersController
+        arguments:
+              - '@tactician.commandbus'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    ui.controller.generate_code_controller:
+        class: App\UI\Controller\UserSide\GenerateCodeController
+        arguments:
+              - '@tactician.commandbus'
+        calls:
+            - [setContainer, ['@service_container']]
+
     ui.form.generate_survey_type:
-        class: App\UI\Form\GenerateSurveyType
+        class: App\UI\Form\UserSide\GenerateSurveyType
         arguments:
             - '@infrastructure.doctrine.survey_view'
             - '@infrastructure.doctrine.question_view'
             - '@infrastructure.doctrine.offered_answer_view'
+
 
 
     application.command.create_survey:
@@ -182,19 +213,48 @@ services:
         tags:
             - { name: tactician.handler, command: App\Application\Command\Question\UpdateQuestionCommand }
 
+    application.command.user.create_user:
+        class: App\Application\Command\User\CreateNewUserHandler
+        arguments:
+            - '@user.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\User\CreateNewUserCommand }
+
+    application.command.rebate_code.create_code:
+        class: App\Application\Command\RebateCode\CreateNewCodeHandeler
+        arguments:
+            - '@rebate_code.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\RebateCode\CreateNewCodeCommand }
+
+    application.command.rebate_code.update_code:
+        class: App\Application\Command\RebateCode\UpdateCodeHandler
+        arguments:
+            - '@rebate_code.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\RebateCode\UpdateCodeCommand }
+
 
     infrastructure.doctrine.survey_view:
           class: App\Infrastructure\Doctrine\DbalSurveyView
           arguments: ['@Doctrine\DBAL\Driver\Connection']
 
     infrastructure.doctrine.question_view:
-          class : App\Infrastructure\Doctrine\DbalQuestionView
+          class: App\Infrastructure\Doctrine\DbalQuestionView
           arguments: ['@Doctrine\DBAL\Driver\Connection']
 
     infrastructure.doctrine.offered_answer_view:
-          class : App\Infrastructure\Doctrine\DbalOfferedAnswerView
+          class: App\Infrastructure\Doctrine\DbalOfferedAnswerView
           arguments: ['@Doctrine\DBAL\Driver\Connection']
 
     infrastructure.doctrine.answer_view:
-              class : App\Infrastructure\Doctrine\DbalAnswerView
-              arguments: ['@Doctrine\DBAL\Driver\Connection']
+          class: App\Infrastructure\Doctrine\DbalAnswerView
+          arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+    infrastructure.doctrine.user_view:
+          class: App\Infrastructure\Doctrine\DbalUserView
+          arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+    infrastructure.doctrine.rebate_code_view:
+          class: App\Infrastructure\Doctrine\DbalRebateCodeView
+          arguments: ['@Doctrine\DBAL\Driver\Connection']

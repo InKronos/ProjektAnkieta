@@ -1,0 +1,84 @@
+services:
+    application.command.create_survey:
+              class: App\Application\Command\Survey\CreateNewSurveyHandler
+              arguments:
+                  - '@survey.repository'
+              tags:
+                  - { name: tactician.handler, command: App\Application\Command\Survey\CreateNewSurveyCommand }
+
+    application.command.create_question:
+          class: App\Application\Command\Question\CreateNewQuestionHandler
+          arguments:
+              - '@question.repository'
+          tags:
+              - { name: tactician.handler, command: App\Application\Command\Question\CreateNewQuestionCommand }
+
+    application.command.create_offered_answer:
+          class: App\Application\Command\OfferedAnswer\CreateNewOfferedAnswerHandler
+          arguments:
+              - '@offered_answer.repository'
+          tags:
+              - { name: tactician.handler, command: App\Application\Command\OfferedAnswer\CreateNewOfferedAnswerCommand }
+
+    application.command.offered_answer.delete_offered_answer:
+        class: App\Application\Command\OfferedAnswer\DeleteOfferedAnswerHandler
+        arguments:
+            - '@offered_answer.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\OfferedAnswer\DeleteOfferedAnswerCommand }
+
+    application.command.question.delete_question:
+        class: App\Application\Command\Question\DeleteQuestionHandler
+        arguments:
+            - '@question.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Question\DeleteQuestionCommand }
+
+    application.command.survey.delete_survey:
+        class: App\Application\Command\Survey\DeleteSurveyHandler
+        arguments:
+            - '@survey.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Survey\DeleteSurveyCommand }
+
+    application.command.create_answer:
+        class: App\Application\Command\Answer\CreateNewAnswerHandler
+        arguments:
+            - '@answer.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Answer\CreateNewAnswerCommand }
+
+    application.command.answer.delete_answer:
+        class: App\Application\Command\Answer\DeleteAnswerHandler
+        arguments:
+            - '@answer.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Answer\DeleteAnswerCommand }
+
+    application.command.question.update_question:
+        class: App\Application\Command\Question\UpdateQuestionHandler
+        arguments:
+            - '@question.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\Question\UpdateQuestionCommand }
+
+    application.command.user.create_user:
+        class: App\Application\Command\User\CreateNewUserHandler
+        arguments:
+            - '@user.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\User\CreateNewUserCommand }
+
+    application.command.rebate_code.create_code:
+        class: App\Application\Command\RebateCode\CreateNewCodeHandeler
+        arguments:
+            - '@rebate_code.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\RebateCode\CreateNewCodeCommand }
+
+    application.command.rebate_code.update_code:
+        class: App\Application\Command\RebateCode\UpdateCodeHandler
+        arguments:
+            - '@rebate_code.repository'
+        tags:
+            - { name: tactician.handler, command: App\Application\Command\RebateCode\UpdateCodeCommand }

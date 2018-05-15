@@ -1,14 +1,13 @@
 <?php
 
-namespace App\UI\Controller;
+namespace App\UI\Controller\AdminSide;
 
 use App\Application\Query\Survey\SurveyQuery;
 use App\Application\Query\Question\QuestionQuery;
 use League\Tactician\CommandBus;
 use App\Application\Query\OfferedAnswer\OfferedAnswerQuery;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ShowSurveyController extends Controller
 {
@@ -20,16 +19,23 @@ class ShowSurveyController extends Controller
 
     private $offeredAnswerQuery;
 
-    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery)
+    private $session;
+
+    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery, SessionInterface $session)
     {
         $this->commandBus = $commandBus;
         $this->surveyQuery = $surveyQuery;
         $this->questionQuery = $questionQuery;
         $this->offeredAnswerQuery = $offeredAnswerQuery;
+        $this->session = $session;
     }
 
     public function showSurvey()
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $surveyData = $this->surveyQuery->getAll();
         
         return $this->render('show_survey/index.html.twig', [
@@ -39,6 +45,10 @@ class ShowSurveyController extends Controller
 
     public function showQuestions($id)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $surveyData = $this->surveyQuery->getById($id);
         $questionData = $this->questionQuery->getManyByIdSurvey($id);
 
@@ -50,22 +60,14 @@ class ShowSurveyController extends Controller
 
      public function showQuestionAnswers($id)
      {
+         if(!($this->session->has('login'))) {
+             return $this->redirectToRoute('main_page');
+         }
+
         $questionData = $this->questionQuery->getById($id);
         $offeredanswersData = $this->offeredAnswerQuery->getManyByIdQuestion($id);
         $id_survey = $questionData->getIdSurvey();
 
-        /*if ($formend->isSubmitted() && $formend->isValid())
-        {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($questiondata);
-            foreach ($offeredanswersdata as &$answer) {
-                $entityManager->remove($answer);
-            }
-
-            $entityManager->flush();
-
-            return $this->redirect('/show/survey/'.$id_survey);
-        }*/
 
         return $this->render('show_survey/showQuestion.html.twig', [
             'question' => $questionData,

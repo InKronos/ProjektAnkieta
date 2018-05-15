@@ -1,0 +1,18 @@
+# User.orm.yml
+App\Domain\Entity\User:
+    type: entity
+    table: users
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: NONE
+    fields:
+        login:
+            type: string
+            length: 255
+            nullable: false
+        password:
+            type: string
+            length: 255
+            nullable: false

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\UI\Controller;
+namespace App\UI\Controller\AdminSide;
 
 use App\Application\Command\Survey\CreateNewSurveyCommand;
-use App\UI\Form\SurveyType;
+use App\UI\Form\AdminSide\SurveyType;
 use League\Tactician\CommandBus;
 use App\Application\Query\Survey\SurveyQuery;
 use App\Application\Query\OfferedAnswer\OfferedAnswerQuery;
@@ -16,8 +16,9 @@ use App\Application\Command\Question\DeleteQuestionCommand;
 use App\Application\Command\Survey\DeleteSurveyCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class MakeSurveyController extends Controller
+class SurveyController extends Controller
 {
     private $commandBus;
 
@@ -29,17 +30,24 @@ class MakeSurveyController extends Controller
 
     private $answerQuery;
 
-    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery, AnswerQuery $answerQuery)
+    private $session;
+
+    public function __construct(CommandBus $commandBus, SurveyQuery $surveyQuery, QuestionQuery $questionQuery, OfferedAnswerQuery $offeredAnswerQuery, AnswerQuery $answerQuery, SessionInterface $session)
     {
         $this->commandBus = $commandBus;
         $this->surveyQuery = $surveyQuery;
         $this->questionQuery = $questionQuery;
         $this->offeredAnswerQuery = $offeredAnswerQuery;
         $this->answerQuery = $answerQuery;
+        $this->session = $session;
     }
 
     public function addAction(Request $request)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $formsurvey = $this->createForm(SurveyType::class);
         $formsurvey->handleRequest($request);
         
@@ -61,6 +69,10 @@ class MakeSurveyController extends Controller
 
     public function deleteAction($id)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $surveyData = $this->surveyQuery->getById($id);
         $questionData = $this->questionQuery->getManyByIdSurvey($id);
         $answerData = $this->answerQuery->getManyByIdSurvey($surveyData->getId());
@@ -88,6 +100,10 @@ class MakeSurveyController extends Controller
 
     public function thanksAction($id)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $id_survey = $id;
         $questionData = $this->questionQuery->getManyByIdSurvey($id_survey);
         $surveyData = $this->surveyQuery->getById($id_survey);

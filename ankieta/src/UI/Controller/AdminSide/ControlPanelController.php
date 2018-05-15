@@ -1,15 +1,27 @@
 <?php
-namespace App\UI\Controller;
+namespace App\UI\Controller\AdminSide;
 
-use App\UI\Form\PickOneType;
+use App\UI\Form\AdminSide\PickOneType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class ControlPanelController extends Controller
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     public function indexAction(Request $request)
     {
+        if(!($this->session->has('login'))) {
+            return $this->redirectToRoute('main_page');
+        }
+
         $formpanel = $this->createForm(PickOneType::class);
         $formpanel->handleRequest($request);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UI\Form;
+namespace App\UI\Form\UserSide;
 
 use App\Application\Query\OfferedAnswer\OfferedAnswerQuery;
 use App\Application\Query\Question\QuestionQuery;

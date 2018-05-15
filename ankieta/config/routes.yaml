@@ -1,6 +1,6 @@
-logowanie:
-    path: /logowanie
-    controller: 'App\Controller\LoginController::logowanie'
+login:
+    path: /login
+    controller: ui.controller.login_controller:loginAction
 control_panel:
     path: /panel
     controller: ui.controller.control_panel_controller:indexAction
@@ -11,9 +11,7 @@ add_survey:
 main_page:
     path: /
     controller: ui.controller.main_page_controller:indexAction
-generate_code:
-    path: /generate/code
-    controller: 'App\Controller\GenerateCodeController::index'
+
 add_question:
     path: /question/add/{option}/{id}
     controller: ui.controller.question_controller:addAction
@@ -56,3 +54,11 @@ show_table_answers:
 edit_question:
     path: /question/edit/{id}
     controller: ui.controller.question_controller:editAction
+
+add_user:
+    path: /users
+    controller: ui.controller.users_controller:indexAction
+
+generate_code:
+    path: /generate/code
+    controller: ui.controller.generate_code_controller:indexAction
