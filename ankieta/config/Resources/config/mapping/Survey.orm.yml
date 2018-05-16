@@ -1,0 +1,15 @@
+# Survey.orm.yaml
+App\Domain\Entity\Survey:
+    type: entity
+    table: surveys
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: NONE
+    fields:
+        name:
+            type: string
+            length: 100
+            nullable: true
+

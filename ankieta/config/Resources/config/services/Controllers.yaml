@@ -1,4 +1,6 @@
-   ui.controller.survey_controller:
+services:
+
+    ui.controller.survey_controller:
           class: App\UI\Controller\AdminSide\SurveyController
           arguments:
               - '@tactician.commandbus'
@@ -6,6 +8,8 @@
               - '@infrastructure.doctrine.question_view'
               - '@infrastructure.doctrine.offered_answer_view'
               - '@infrastructure.doctrine.answer_view'
+              - '@session'
+          tags: ['controller.service_arguments']
 
 
     ui.controller.question_controller:
@@ -15,7 +19,8 @@
               - '@infrastructure.doctrine.survey_view'
               - '@infrastructure.doctrine.question_view'
               - '@infrastructure.doctrine.offered_answer_view'
-        #  tags: ['controller.service_arguments']
+              - '@session'
+          tags: ['controller.service_arguments']
 
     ui.controller.offered_answer_controller:
           class: App\UI\Controller\AdminSide\OfferedAnswerController
@@ -23,12 +28,16 @@
               - '@tactician.commandbus'
               - '@infrastructure.doctrine.question_view'
               - '@infrastructure.doctrine.offered_answer_view'
-        #  tags: ['controller.service_arguments']
+              - '@session'
+          tags: ['controller.service_arguments']
 
     ui.controller.control_panel_controller:
         class: App\UI\Controller\AdminSide\ControlPanelController
+        arguments:
+              - '@session'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.controller.show_survey_controller:
         class: App\UI\Controller\AdminSide\ShowSurveyController
@@ -37,6 +46,8 @@
             - '@infrastructure.doctrine.survey_view'
             - '@infrastructure.doctrine.question_view'
             - '@infrastructure.doctrine.offered_answer_view'
+            - '@session'
+        tags: ['controller.service_arguments']
 
     ui.controller.main_page_controller:
         class: App\UI\Controller\UserSide\MainPageController
@@ -44,6 +55,7 @@
             - '@infrastructure.doctrine.survey_view'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.controller.fill_survey_controller:
         class: App\UI\Controller\UserSide\FillSurveyController
@@ -52,6 +64,7 @@
             - '@infrastructure.doctrine.rebate_code_view'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.controller.show_table_answers_controller:
         class: App\UI\Controller\AdminSide\ShowTableAnswersController
@@ -59,15 +72,19 @@
               - '@infrastructure.doctrine.answer_view'
               - '@infrastructure.doctrine.question_view'
               - '@infrastructure.doctrine.survey_view'
+              - '@session'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.controller.login_controller:
         class: App\UI\Controller\AdminSide\LoginController
         arguments:
               - '@infrastructure.doctrine.user_view'
+              - '@session'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.controller.users_controller:
         class: App\UI\Controller\AdminSide\UsersController
@@ -75,6 +92,7 @@
               - '@tactician.commandbus'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.controller.generate_code_controller:
         class: App\UI\Controller\UserSide\GenerateCodeController
@@ -82,6 +100,7 @@
               - '@tactician.commandbus'
         calls:
             - [setContainer, ['@service_container']]
+        tags: ['controller.service_arguments']
 
     ui.form.generate_survey_type:
         class: App\UI\Form\UserSide\GenerateSurveyType
@@ -89,3 +108,4 @@
             - '@infrastructure.doctrine.survey_view'
             - '@infrastructure.doctrine.question_view'
             - '@infrastructure.doctrine.offered_answer_view'
+        tags: [form.type]

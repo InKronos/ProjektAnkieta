@@ -37,15 +37,14 @@ class DbalAnswerView implements AnswerQuery
 
     public function getManyByIdSurvey(string $answerIdSurvey): array
     {
-        $results = $this->connection->fetchAssoc('
+        $results = $this->connection->fetchAll('
             SELECT a.id, a.id_survey, a.answers FROM answers AS a 
             WHERE a.id_survey = :id_survey',
             [
                 ':id_survey' => $answerIdSurvey,
             ]
         );
-        $answers = unserialize($result['answers']);
-        if(!$results);
+
 
         return array_map(function (array  $result){
             return new AnswerView($result['id'], $result['id_survey'], unserialize($result['answers']));

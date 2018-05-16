@@ -16,6 +16,7 @@ class DeleteOfferedAnswerHandler
     public function handle(DeleteOfferedAnswerCommand $command)
     {
         $offeredAnswer = $this->offeredAnswer->find($command->getId());
+
         $this->offeredAnswer->delete($offeredAnswer);
     }
 

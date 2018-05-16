@@ -23,7 +23,7 @@ doctrine:
             App:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/src/Resources/config/mapping'
+                dir: '%kernel.project_dir%/config/Resources/config/mapping'
                 prefix: 'App\Domain\Entity'
                 alias: App
         #dql:

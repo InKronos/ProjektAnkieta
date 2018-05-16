@@ -1,0 +1,24 @@
+services:
+      infrastructure.doctrine.survey_view:
+            class: App\Infrastructure\Doctrine\DbalSurveyView
+            arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+      infrastructure.doctrine.question_view:
+            class: App\Infrastructure\Doctrine\DbalQuestionView
+            arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+      infrastructure.doctrine.offered_answer_view:
+            class: App\Infrastructure\Doctrine\DbalOfferedAnswerView
+            arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+      infrastructure.doctrine.answer_view:
+            class: App\Infrastructure\Doctrine\DbalAnswerView
+            arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+      infrastructure.doctrine.user_view:
+            class: App\Infrastructure\Doctrine\DbalUserView
+            arguments: ['@Doctrine\DBAL\Driver\Connection']
+
+      infrastructure.doctrine.rebate_code_view:
+            class: App\Infrastructure\Doctrine\DbalRebateCodeView
+            arguments: ['@Doctrine\DBAL\Driver\Connection']

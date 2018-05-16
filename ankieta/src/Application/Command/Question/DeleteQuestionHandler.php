@@ -17,6 +17,6 @@ class DeleteQuestionHandler
     {
         $question = $this->question->find($command->getId());
 
-        $this->question->add($question);
+        $this->question->delete($question);
     }
 }
